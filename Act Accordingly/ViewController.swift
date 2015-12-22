@@ -9,10 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var calculatedLifeDuration = 0
+    var currentHoursRemaining = "50,403"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.setObject("50,403", forKey: "currentHoursRemaining")
+        defaults?.synchronize()
+        
     }
 
     override func didReceiveMemoryWarning() {
