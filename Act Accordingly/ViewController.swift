@@ -16,8 +16,7 @@ class ViewController: UIViewController {
         
         // Calcuate totalEstimatedLifetime based on Age, Gender and Country
         
-        let calendar : NSCalendar = NSCalendar.currentCalendar()
-        let now = NSDate()
+
         
         // Get input from user (currently hardcoded)
         // let country = "Australia"
@@ -27,16 +26,19 @@ class ViewController: UIViewController {
         let birthDay = 16
         
         // Calculate age based on DOB
+        
         let userDOB = NSCalendar.currentCalendar().dateWithEra(1, year: birthYear, month: birthMonth, day: birthDay, hour: 0, minute: 0, second: 0, nanosecond: 0)
-        let ageComponents = calendar.components(.Year, fromDate: userDOB!, toDate: now, options: [])
-        let age = ageComponents.year
-        let usersAgeInDays = age * 365
+        //let ageComponents = calendar.components(.Day, fromDate: userDOB!, toDate: now, options: [])
+        //let age = ageComponents.day
+        
+        // Calculate user's estimated lifetime
+        let totalDaysInLifetime = 74.3 * 365
         
         // Setup UserDefaults
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         // Set the string for the Today Extenstion to display
-        defaults?.setObject(usersAgeInDays, forKey: "usersAgeInDays")
-        defaults?.setObject("50,403", forKey: "totalDaysInLifetime")
+        defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
+        defaults?.setObject(userDOB, forKey: "userDOB")
         defaults?.synchronize()
         
     }
