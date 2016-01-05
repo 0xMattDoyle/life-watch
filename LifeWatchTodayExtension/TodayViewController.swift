@@ -26,7 +26,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         if
             let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime"),
-            let userDOB = defaults?.objectForKey("userDOB") as! NSDate? {
+            let userDOB = defaults?.objectForKey("userDOB") as! NSDate?
+        
+        {
                 
             // Calculate age based on DOB
             let calendar : NSCalendar = NSCalendar.currentCalendar()
@@ -36,10 +38,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
              
             // Calculate users days remaining
             let usersDaysRemaining = totalDaysInLifetime - usersAgeInDays
+                
+            // Set up comma-separated number to print
+            let formatter = NSNumberFormatter()
+            formatter.numberStyle = .DecimalStyle
+            let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
             
             // Show result
-            print(usersDaysRemaining)
-            hoursRemainingLabel.text = "Statistically, you have " + String(usersDaysRemaining) + " days left to do everything you will ever do. Make them count."
+            hoursRemainingLabel.text = "Statistically, you have " + usersDaysRemainingCommaSeparated + " days left. Make them count!"
             
         } else {
             
