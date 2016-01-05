@@ -39,7 +39,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             
             // Show result
             print(usersDaysRemaining)
-            hoursRemainingLabel.text = "You have approximately " + String(usersDaysRemaining) + " days left to do everything you will ever do. Make them count."
+            hoursRemainingLabel.text = "Statistically, you have " + String(usersDaysRemaining) + " days left to do everything you will ever do. Make them count."
             
         } else {
             
