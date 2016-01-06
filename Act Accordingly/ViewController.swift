@@ -8,15 +8,12 @@
 //
 
 import UIKit
+import Parse
 
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Calcuate totalEstimatedLifetime based on Age, Gender and Country
-        
-
         
         // Get input from user (currently hardcoded)
         // let country = "Australia"
@@ -31,8 +28,13 @@ class ViewController: UIViewController {
         //let ageComponents = calendar.components(.Day, fromDate: userDOB!, toDate: now, options: [])
         //let age = ageComponents.day
         
+        // Calcuate totalEstimatedLifetime based on Age, Gender and Country
+        
+        
+        let lifeExpectancy = 74.3 // update hardcoded value to value from Parse
+        
         // Calculate user's estimated lifetime
-        let totalDaysInLifetime = 74.3 * 365
+        let totalDaysInLifetime = lifeExpectancy * 365
         
         // Setup UserDefaults
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")

@@ -8,6 +8,7 @@
 
 import UIKit
 import NotificationCenter
+import Parse
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
