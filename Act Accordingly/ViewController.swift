@@ -9,11 +9,23 @@
 
 import UIKit
 import Parse
+import FBSDKCoreKit
+import FBSDKLoginKit
+import ParseFacebookUtilsV4
 
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if(FBSDKAccessToken.currentAccessToken() != nil) {
+            //They are logged in so show another view
+            print("Logged in")
+            self.performSegueWithIdentifier("goToHomeScreen", sender: self)
+        } else {
+            print("Not logged in")
+            self.performSegueWithIdentifier("login", sender: self)
+        }
         
         // Get input from user (currently hardcoded)
         let country = "Australia"
@@ -68,18 +80,6 @@ class ViewController: UIViewController {
             }
             
         }
-        
-        /*let lifeExpectancy = 74.3 // update hardcoded value to value from Parse
-        
-        // Calculate user's estimated lifetime
-        let totalDaysInLifetime = lifeExpectancy * 365
-        
-        // Setup UserDefaults
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-        // Set the string for the Today Extenstion to display
-        defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
-        defaults?.setObject(userDOB, forKey: "userDOB")
-        defaults?.synchronize()*/
         
     }
 
