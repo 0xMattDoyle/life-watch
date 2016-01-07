@@ -16,11 +16,24 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbR-kx-dMe">
+                                <rect key="frame" x="274" y="285" width="52" height="30"/>
+                                <state key="normal" title="Log out"/>
+                                <connections>
+                                    <action selector="logOutDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5bM-Gm-xlz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vbR-kx-dMe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Eks-VX-L5m"/>
+                            <constraint firstItem="vbR-kx-dMe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lvm-VJ-SvR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="53b-La-ACx"/>
                     <connections>
-                        <segue destination="6pb-Qk-nZr" kind="show" identifier="login" id="FJw-b4-B3e"/>
+                        <segue destination="6pb-Qk-nZr" kind="show" identifier="notLoggedIn" id="FJw-b4-B3e"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -53,6 +66,9 @@
                             <constraint firstItem="FZw-pz-xs5" firstAttribute="centerY" secondItem="rX7-Ew-xix" secondAttribute="centerY" id="xRC-Iy-aTp"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="finishedLoggingInSegue" id="IVI-dW-BYi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zXo-GS-8r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,4 +97,7 @@
             <point key="canvasLocation" x="913" y="362"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="IVI-dW-BYi"/>
+    </inferredMetricsTieBreakers>
 </document>

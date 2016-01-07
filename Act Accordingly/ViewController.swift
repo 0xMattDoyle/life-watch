@@ -14,18 +14,27 @@ import FBSDKLoginKit
 import ParseFacebookUtilsV4
 
 class ViewController: UIViewController {
+    @IBAction func logOutDidPress(sender: AnyObject) {
+        
+        PFUser.logOut()
+        self.performSegueWithIdentifier("notLoggedIn", sender: self)
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Check if user logged in
         if(FBSDKAccessToken.currentAccessToken() != nil) {
-            //They are logged in so show another view
-            print("Logged in")
-            self.performSegueWithIdentifier("goToHomeScreen", sender: self)
+            //They are logged in
+            
+            
+            
         } else {
             print("Not logged in")
-            self.performSegueWithIdentifier("login", sender: self)
+            self.performSegueWithIdentifier("notLoggedIn", sender: self)
         }
+        
         
         // Get input from user (currently hardcoded)
         let country = "Australia"

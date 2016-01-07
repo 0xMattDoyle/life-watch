@@ -30,7 +30,10 @@ class LoginViewController: UIViewController {
             } else {
                 print("Uh oh. The user cancelled the Facebook login.")
             }
+            
         }
+        
+        self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
         
     }
 
