@@ -16,43 +16,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     // IBOutlets
     @IBOutlet weak var hoursRemainingLabel: UILabel!
-    
         
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
-        
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-        defaults?.synchronize()
-        
-        if
-            let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime"),
-            let userDOB = defaults?.objectForKey("userDOB") as! NSDate?
-        
-        {
-                
-            // Calculate age based on DOB
-            let calendar : NSCalendar = NSCalendar.currentCalendar()
-            let now = NSDate()
-            let ageComponents = calendar.components(.Day, fromDate: userDOB, toDate: now, options: [])
-            let usersAgeInDays = ageComponents.day
-             
-            // Calculate users days remaining
-            let usersDaysRemaining = totalDaysInLifetime - usersAgeInDays
-                
-            // Set up comma-separated number to print
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = .DecimalStyle
-            let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
-            
-            // Show result
-            hoursRemainingLabel.text = "Statistically, you have " + usersDaysRemainingCommaSeparated + " days left. Make them count!"
-            
-        } else {
-            
-            hoursRemainingLabel.text = "Please open LifeWatch first to set up."
-            
-        }
+     
+        // Show result
+        hoursRemainingLabel.text = "Statistically, you have " + usersDaysRemaining() + " days left. Make them count!"
+        print(usersDaysRemaining())
         
     }
     
