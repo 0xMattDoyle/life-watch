@@ -33,6 +33,7 @@ class LoginViewController: UIViewController {
             
         }
         
+        print(FBSDKProfile.currentProfile()?.name)
         self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
         
     }

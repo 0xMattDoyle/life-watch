@@ -14,6 +14,11 @@ import FBSDKLoginKit
 import ParseFacebookUtilsV4
 
 class ViewController: UIViewController {
+    
+    // IBOutlets
+    @IBOutlet weak var profilePicture: FBSDKProfilePictureView!
+    
+    // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
         
         PFUser.logOut()
@@ -24,11 +29,55 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Watch for changes in user profile
+        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
+    
+        // Function runs when users profile changes
+        func onProfileUpdated(notification: NSNotification) {
+            
+            // Change found
+            profilePicture.setNeedsImageUpdate()
+            
+        }
+        
         // Check if user logged in
         if(FBSDKAccessToken.currentAccessToken() != nil) {
             //They are logged in
             
+            // Save FB info to Parse
+            print(FBSDKProfile.currentProfile())
+            let user = PFUser.currentUser()
+            user!["firstName"] = FBSDKProfile.currentProfile().firstName
+            user!["lastName"] = FBSDKProfile.currentProfile().lastName
             
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, gender, locale"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                print(result)
+                user!["gender"] = result.valueForKey("gender")
+                //user!["gender"] = gender
+                
+                user!.saveInBackground()
+                
+                //user!["country"] = result.valueForKey("locale")
+                
+            })
+            
+            //user!["DOB"] =
+            //user!["country"] =
+            user!.saveInBackgroundWithBlock({ (success, error) -> Void in
+                
+                if success == true {
+                    
+                    print("saved")
+                    
+                } else {
+                    
+                    print("Something fucked up")
+                    
+                }
+                
+            })
             
         } else {
             print("Not logged in")
