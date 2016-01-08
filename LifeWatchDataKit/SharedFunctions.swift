@@ -8,24 +8,41 @@
 
 import Foundation
 import Parse
+import FBSDKCoreKit
+import FBSDKLoginKit
+import ParseFacebookUtilsV4
 
 // Calculates how many days a user has remaining, based on their DOB, Country and Gender.
-func usersDaysRemaining() -> String {
-
+func populateDataFromFB() {
+    
     // Get input from user (currently hardcoded)
     let country = "Australia"
     let gender = "Male"
+    
+    // Save FB info to Parse
+    let user = PFUser.currentUser()
+    user!["firstName"] = FBSDKProfile.currentProfile().firstName
+    user!["lastName"] = FBSDKProfile.currentProfile().lastName
+    user!.saveInBackground()
+    
+    FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+        
+        user!["gender"] = result.valueForKey("gender")
+        let DOB = result.valueForKey("birthday")
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        let date = dateFormatter.dateFromString(String(DOB!))
+        user!["DOB"] = date
+        user!.saveInBackground()
+        
+    })
     
     // Get data from Parse
     let dobString = PFUser.currentUser()?.valueForKey("DOB") as? NSDate
     let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
     let userDOB = NSCalendar.currentCalendar().components(unitFlags, fromDate: dobString!)
     
-    print(userDOB)
-
-    
-    // Calcuate lifeExpectancy based on Age, Gender and Country
-    // Query to get relevant lifeExp objectId
+    // Query to get relevant lifeExp objectId from Parse
     let idQuery = PFQuery(className: "lifeExp")
     idQuery.whereKey("Country", equalTo: country)
     idQuery.whereKey("Gender", equalTo: gender)
@@ -70,6 +87,10 @@ func usersDaysRemaining() -> String {
         
     }
     
+}
+
+func usersDaysRemaining() -> String {
+
     let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
     defaults?.synchronize()
     

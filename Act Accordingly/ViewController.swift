@@ -36,38 +36,19 @@ class ViewController: UIViewController {
         // Function runs when users profile changes
         func onProfileUpdated(notification: NSNotification) {
             
-            // Change found
             profilePicture.setNeedsImageUpdate()
             
         }
         
         // Check if user logged in
-        if(FBSDKAccessToken.currentAccessToken() != nil) {
-            //They are logged in
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
             
-            // Save FB info to Parse
-            let user = PFUser.currentUser()
-            user!["firstName"] = FBSDKProfile.currentProfile().firstName
-            user!["lastName"] = FBSDKProfile.currentProfile().lastName
-            user!.saveInBackground()
-            
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                user!["gender"] = result.valueForKey("gender")
-                let DOB = result.valueForKey("birthday")
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-                let date = dateFormatter.dateFromString(String(DOB!))
-                user!["DOB"] = date
-                user!.saveInBackground()
-                
-                usersDaysRemaining()
-                
-            })
-
+            //User is logged in
+            populateDataFromFB()
+            usersDaysRemaining()
             
         } else {
-            print("Not logged in")
+            // User is not logged in
             self.performSegueWithIdentifier("notLoggedIn", sender: self)
         }
         
