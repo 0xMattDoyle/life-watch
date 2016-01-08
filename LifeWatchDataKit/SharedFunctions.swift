@@ -17,59 +17,78 @@ func populateDataFromFB() {
     
     // Get input from user (currently hardcoded)
     let country = "Australia"
-    let gender = "Male"
     
     // Save FB info to Parse
-    let user = PFUser.currentUser()
-    user!["firstName"] = FBSDKProfile.currentProfile().firstName
-    user!["lastName"] = FBSDKProfile.currentProfile().lastName
-    user!.saveInBackground()
-    
-    FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
         
-        user!["gender"] = result.valueForKey("gender")
-        let DOB = result.valueForKey("birthday")
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let date = dateFormatter.dateFromString(String(DOB!))
-        user!["DOB"] = date
-        user!.saveInBackground()
-        
-    })
-    
-    // Get data from Parse
-    let dobString = PFUser.currentUser()?.valueForKey("DOB") as? NSDate
-    let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
-    let userDOB = NSCalendar.currentCalendar().components(unitFlags, fromDate: dobString!)
-    
-    // Query to get relevant lifeExp objectId from Parse
-    let idQuery = PFQuery(className: "lifeExp")
-    idQuery.whereKey("Country", equalTo: country)
-    idQuery.whereKey("Gender", equalTo: gender)
-    idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-        
-        if error == nil {
+        if error != nil {
             
-            let objectId = object!.objectId!
+            //let user = PFUser.currentUser()
+            print(user?.objectId)
             
-            // Query to get lifeExp using objectId
-            let lifeExpQuery = PFQuery(className:"lifeExp")
-            lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
+            user!["firstName"] = FBSDKProfile.currentProfile().firstName
+            user!["lastName"] = FBSDKProfile.currentProfile().lastName
+            user!.saveInBackground()
+            
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                user!["gender"] = result.valueForKey("gender")
+                let DOB = result.valueForKey("birthday")
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                let date = dateFormatter.dateFromString(String(DOB!))
+                user!["DOB"] = date
+                user!.saveInBackground()
+                
+            })
+            
+            // Get data from Parse
+            
+            // Get DOB
+            let dobString = PFUser.currentUser()?.valueForKey("DOB") as? NSDate
+            let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+            let userDOB = NSCalendar.currentCalendar().components(unitFlags, fromDate: dobString!)
+            
+            // Query to get relevant lifeExp objectId from Parse
+            let idQuery = PFQuery(className: "lifeExp")
+            idQuery.whereKey("Country", equalTo: country)
+            idQuery.whereKey("Gender", equalTo: user!["gender"])
+            idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 
                 if error == nil {
                     
-                    let lifeExp = object!["y" + String(userDOB.year)] as! Double
-                    print(lifeExp)
+                    let objectId = object!.objectId!
                     
-                    // Calculate user's estimated lifetime
-                    let totalDaysInLifetime = lifeExp * 365
-                    
-                    // Setup UserDefaults
-                    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-                    // Set the string for the Today Extenstion to display
-                    defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
-                    defaults?.setObject(userDOB, forKey: "userDOB")
-                    defaults?.synchronize()
+                    // Query to get lifeExp using objectId
+                    let lifeExpQuery = PFQuery(className:"lifeExp")
+                    lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
+                        
+                        if error == nil {
+                            
+                            let lifeExp = object!["y" + String(userDOB.year)] as! Double
+                            print(lifeExp)
+                            
+                            // Calculate user's estimated lifetime
+                            let totalDaysInLifetime = lifeExp * 365
+                            
+                            // Setup UserDefaults
+                            let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+                            // Save data locally
+                            defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
+                            defaults?.setObject(dobString, forKey: "dobString")
+                            defaults?.setObject(FBSDKProfile.currentProfile().firstName, forKey: "firstName")
+                            defaults?.setObject(FBSDKProfile.currentProfile().lastName, forKey: "lastName")
+                            defaults?.setObject(user!["gender"], forKey: "gender")
+                            
+                            defaults?.synchronize()
+                            
+                        } else {
+                            
+                            print(error)
+                            
+                        }
+                        
+                    }
                     
                 } else {
                     
@@ -85,7 +104,7 @@ func populateDataFromFB() {
             
         }
         
-    }
+    })
     
 }
 
@@ -96,14 +115,18 @@ func usersDaysRemaining() -> String {
     
     if
         let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime"),
-        let userDOB = defaults?.objectForKey("userDOB") as! NSDate?
+        let dobString = defaults?.objectForKey("dobString") as! NSDate?
         
     {
+        // Convert dobString to components
+        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+        let userDOB = NSCalendar.currentCalendar().components(unitFlags, fromDate: dobString)
+        print(userDOB)
         
         // Calculate age based on DOB
         let calendar : NSCalendar = NSCalendar.currentCalendar()
         let now = NSDate()
-        let ageComponents = calendar.components(.Day, fromDate: userDOB, toDate: now, options: [])
+        let ageComponents = calendar.components(.Day, fromDate: dobString, toDate: now, options: [])
         let usersAgeInDays = ageComponents.day
         
         // Calculate users days remaining
