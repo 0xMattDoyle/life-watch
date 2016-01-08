@@ -46,97 +46,29 @@ class ViewController: UIViewController {
             //They are logged in
             
             // Save FB info to Parse
-            print(FBSDKProfile.currentProfile())
             let user = PFUser.currentUser()
             user!["firstName"] = FBSDKProfile.currentProfile().firstName
             user!["lastName"] = FBSDKProfile.currentProfile().lastName
+            user!.saveInBackground()
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, gender, locale"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 
-                print(result)
                 user!["gender"] = result.valueForKey("gender")
-                //user!["gender"] = gender
-                
+                let DOB = result.valueForKey("birthday")
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+                let date = dateFormatter.dateFromString(String(DOB!))
+                user!["DOB"] = date
                 user!.saveInBackground()
                 
-                //user!["country"] = result.valueForKey("locale")
+                usersDaysRemaining()
                 
             })
-            
-            //user!["DOB"] =
-            //user!["country"] =
-            user!.saveInBackgroundWithBlock({ (success, error) -> Void in
-                
-                if success == true {
-                    
-                    print("saved")
-                    
-                } else {
-                    
-                    print("Something fucked up")
-                    
-                }
-                
-            })
+
             
         } else {
             print("Not logged in")
             self.performSegueWithIdentifier("notLoggedIn", sender: self)
-        }
-        
-        
-        // Get input from user (currently hardcoded)
-        let country = "Australia"
-        let gender = "Male"
-        let birthYear = 1991
-        let birthMonth = 7
-        let birthDay = 16
-        let userDOB = NSCalendar.currentCalendar().dateWithEra(1, year: birthYear, month: birthMonth, day: birthDay, hour: 0, minute: 0, second: 0, nanosecond: 0)
-        
-        // Calcuate lifeExpectancy based on Age, Gender and Country
-        // Query to get relevant lifeExp objectId
-        let idQuery = PFQuery(className: "lifeExp")
-        idQuery.whereKey("Country", equalTo: country)
-        idQuery.whereKey("Gender", equalTo: gender)
-        idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-            
-            if error == nil {
-                
-                let objectId = object!.objectId! 
-                    
-                // Query to get lifeExp using objectId
-                let lifeExpQuery = PFQuery(className:"lifeExp")
-                lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
-                    
-                    if error == nil {
-                        
-                        let lifeExp = object!["y" + String(birthYear)] as! Double
-                        print(lifeExp)
-                        
-                        // Calculate user's estimated lifetime
-                        let totalDaysInLifetime = lifeExp * 365
-                        
-                        // Setup UserDefaults
-                        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-                        // Set the string for the Today Extenstion to display
-                        defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
-                        defaults?.setObject(userDOB, forKey: "userDOB")
-                        defaults?.synchronize()
-                        
-                    } else {
-                        
-                        print(error)
-                        
-                    }
-                    
-                }
-                
-            } else {
-                
-                print(error)
-                
-            }
-            
         }
         
     }
