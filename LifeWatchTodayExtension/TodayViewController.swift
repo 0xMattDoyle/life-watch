@@ -12,6 +12,7 @@ import NotificationCenter
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     // Global variables
+
     
     // IBOutlets
     @IBOutlet weak var hoursRemainingLabel: UILabel!
@@ -19,10 +20,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
+
      
         // Show result
-        hoursRemainingLabel.text = "Statistically, you have " + usersDaysRemaining() + " days left. Make them count!"
-        print(usersDaysRemaining())
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        let firstName = defaults?.stringForKey("firstName")
+        hoursRemainingLabel.text = firstName! + ", you have an average of " + (defaults?.stringForKey("usersDaysRemaining"))! + " days left to do everything you've ever dreamed of. Go make them count!"
+        print("usersDaysRemaining(): " + (defaults?.stringForKey("usersDaysRemaining"))!)
         
     }
     

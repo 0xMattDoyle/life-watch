@@ -28,24 +28,29 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        PFUser.currentUser()?.fetchInBackground()
         
-        // Watch for changes in user profile
-        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
-    
-        // Function runs when users profile changes
+        // Function runs when users profile changes - Currently disabled
         func onProfileUpdated(notification: NSNotification) {
             
             profilePicture.setNeedsImageUpdate()
             
         }
         
+        // Watch for changes in user profile
+        FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
+        
         // Check if user logged in
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             
-            //User is logged in
-            populateDataFromFB()
-            usersDaysRemaining()
+            //User is logged in, so do things with all of the data.
+            sleep(1)
+            getUsersLifeExp()
+            sleep(1)
+            saveParseDataLocally()
+            sleep(1)
+            calulateUsersDaysRemaining()
             
         } else {
             // User is not logged in

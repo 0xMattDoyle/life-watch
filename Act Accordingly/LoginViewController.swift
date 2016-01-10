@@ -24,8 +24,11 @@ class LoginViewController: UIViewController {
             if let user = user {
                 if user.isNew {
                     print("User signed up and logged in through Facebook!")
+                    populateDataFromFB()
+                    self.performSegueWithIdentifier("confirmDataSegue", sender: self)
                 } else {
                     print("User logged in through Facebook!")
+                    self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
                 }
             } else {
                 print("Uh oh. The user cancelled the Facebook login.")
@@ -33,8 +36,7 @@ class LoginViewController: UIViewController {
             
         }
         
-        print(FBSDKProfile.currentProfile()?.name)
-        self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
+        
         
     }
 
