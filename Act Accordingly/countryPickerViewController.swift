@@ -41,10 +41,10 @@ class countryPickerViewController: UIViewController {
     
     @IBAction func doneDidPress(sender: AnyObject) {
         
-        getUsersLifeExp()
-        
         performSegueWithIdentifier("doneSegue", sender: self)
 
+        getUsersLifeExp()
+        
     }
     
     let pickerValues = [

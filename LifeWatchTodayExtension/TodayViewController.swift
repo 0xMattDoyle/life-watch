@@ -21,7 +21,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
 
-     
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        calulateUsersDaysRemaining()
+        
         // Show result
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
