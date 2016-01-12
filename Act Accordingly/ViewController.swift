@@ -15,8 +15,13 @@ import ParseFacebookUtilsV4
 
 class ViewController: UIViewController {
     
+    deinit {
+        NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: "usersDaysRemainingCommaSeparated", context: nil)
+    }
+    
     // IBOutlets
     @IBOutlet weak var profilePicture: FBSDKProfilePictureView!
+    @IBOutlet weak var dashMessage: UILabel!
     
     // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
@@ -26,36 +31,65 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func editDidPress(sender: AnyObject) {
+        
+        performSegueWithIdentifier("editSegue", sender: self)
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        PFUser.currentUser()?.fetchInBackground()
-        
-        // Function runs when users profile changes - Currently disabled
-        func onProfileUpdated(notification: NSNotification) {
-            
-            profilePicture.setNeedsImageUpdate()
-            
-        }
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
         
         // Watch for changes in user profile
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
         
         // Check if user logged in
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             
             //User is logged in, so do things with all of the data.
-            sleep(1)
-            getUsersLifeExp()
-            sleep(1)
-            saveParseDataLocally()
-            sleep(1)
-            calulateUsersDaysRemaining()
+            updateDashText()
             
         } else {
             // User is not logged in
             self.performSegueWithIdentifier("notLoggedIn", sender: self)
         }
+        
+    }
+    
+    func defaultsChanged(notification:NSNotification){
+        
+        updateDashText()
+        
+    }
+    
+    // Function runs when users profile changes - Currently disabled
+    func onProfileUpdated(notification: NSNotification) {
+        
+        profilePicture.setNeedsImageUpdate()
+        //populateDataFromFB()
+        //getUsersLifeExp()
+        
+    }
+    
+    func updateDashText () {
+        
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        
+        let firstName = defaults?.stringForKey("firstName")
+        let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime")
+        let lifeExp = totalDaysInLifetime! / 365
+        let usersDaysRemaining = defaults?.stringForKey("usersDaysRemaining")
+        
+        let textString = String(firstName!) + ", you're expected to live to be " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " days left to do everything that you will ever do. Make them count!"
+        
+        dashMessage.text = textString
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         
     }
 

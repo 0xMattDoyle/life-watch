@@ -7,9 +7,30 @@
 //
 
 import UIKit
+import Parse
 
 class dobPickerViewController: UIViewController {
 
+
+    
+    //IBOutlets
+
+    
+    //IBActions
+    @IBAction func backDidPress(sender: AnyObject) {
+    
+        performSegueWithIdentifier("backToCountryPickerSegue", sender: self)
+        
+    }
+    @IBAction func doneDidPress(sender: AnyObject) {
+        
+        performSegueWithIdentifier("informationCompleteSegue", sender: self)
+        
+    }
+    
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
