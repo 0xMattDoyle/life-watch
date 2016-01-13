@@ -20,6 +20,12 @@ class countryPickerViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     
     // IBActions
+    @IBAction func logOutDidPress(sender: AnyObject) {
+        
+        PFUser.logOut()
+        self.performSegueWithIdentifier("logout", sender: self)
+        
+    }
     
     @IBAction func genderDidSelect(sender: AnyObject) {
         
