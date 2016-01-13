@@ -284,7 +284,11 @@ class countryPickerViewController: UIViewController {
         dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
         let initialDate = dateFormatter.dateFromString(initialDateString)!
         
-        datePicker.maximumDate = NSDate()
+        // Keep date selection within range of data
+        let datePickerMaxDate = dateFormatter.dateFromString("31/12/2013")!
+        let datePickerMinDate = dateFormatter.dateFromString("30/12/1960")!
+        datePicker.maximumDate = datePickerMaxDate
+        datePicker.minimumDate = datePickerMinDate
         datePicker.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
         datePicker.setDate(initialDate, animated: true)
         
