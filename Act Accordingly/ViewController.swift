@@ -22,6 +22,9 @@ class ViewController: UIViewController {
     // IBOutlets
     @IBOutlet weak var profilePicture: FBSDKProfilePictureView!
     @IBOutlet weak var dashMessage: UILabel!
+    @IBOutlet weak var nameHeader: UILabel!
+    @IBOutlet weak var lifeExpNumber: UILabel!
+    @IBOutlet weak var daysLeftNumber: UILabel!
     
     // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
@@ -79,11 +82,15 @@ class ViewController: UIViewController {
         defaults?.synchronize()
         
         let firstName = defaults?.stringForKey("firstName")
+        let lastName = defaults?.stringForKey("lastName")
         let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime")
         let lifeExp = totalDaysInLifetime! / 365
         let usersDaysRemaining = defaults?.stringForKey("usersDaysRemaining")
+        nameHeader.text = firstName! + " " + lastName!
+        lifeExpNumber.text = String(lifeExp)
+        daysLeftNumber.text = usersDaysRemaining
         
-        let textString = String(firstName!) + ", you're expected to live to be " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " days left to do everything that you will ever do. Make them count!"
+        let textString = String(firstName!) + ", you're expected to make it to " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " roughly days left to do everything that you will ever do. Make them count!"
         
         dashMessage.text = textString
         

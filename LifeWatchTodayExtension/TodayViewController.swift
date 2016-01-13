@@ -30,10 +30,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // Show result
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
-        let firstName = defaults?.stringForKey("firstName")
-        hoursRemainingLabel.text = firstName! + ", you have an average of " + (defaults?.stringForKey("usersDaysRemaining"))! + " days left to do everything you've ever dreamed of. Go make them count!"
-        print("usersDaysRemaining(): " + (defaults?.stringForKey("usersDaysRemaining"))!)
-        
+        //let firstName = defaults?.stringForKey("firstName")
+        hoursRemainingLabel.text = "You have roughly " + (defaults?.stringForKey("usersDaysRemaining"))! + " days left, make them count!"
     }
     
     override func didReceiveMemoryWarning() {
