@@ -23,19 +23,21 @@ func populateDataFromFB() {
         try PFUser.currentUser()?.fetch()
         let user = PFUser.currentUser()
         
-        user!["firstName"] = FBSDKProfile.currentProfile().firstName
-        user!["lastName"] = FBSDKProfile.currentProfile().lastName
-        user!.saveInBackground()
-        
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, first_name, last_name"]).startWithCompletionHandler({ (connection, result, error) -> Void in
             
             user!["gender"] = result.valueForKey("gender")?.capitalizedString
+            user!["firstName"] = result.valueForKey("first_name")?.capitalizedString
+            user!["lastName"] = result.valueForKey("last_name")?.capitalizedString
+            
+            /*
             
             // Convert date string to NSDate
             let DOB = String(result.valueForKey("birthday")!)
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
             dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+            dateFormatter.dateFormat = "DD/MM/YYYY"
             let date = dateFormatter.dateFromString(DOB)
             
             // Convert NSDate to dateComponents
@@ -45,7 +47,8 @@ func populateDataFromFB() {
             user!["YOB"] = dobComponents.year
             user!["MOB"] = dobComponents.month
             user!["DayOB"] = dobComponents.day
-            
+            */
+
             user!.saveInBackground()
             
         })
@@ -93,6 +96,7 @@ func getUsersLifeExp() -> Bool {
                             print("totalDaysInLifetime: " + String(totalDaysInLifetime))
                             user!["totalDaysInLifetime"] = totalDaysInLifetime
                             
+                            user?.saveInBackground()
                             saveParseDataLocally()
                             
                         }

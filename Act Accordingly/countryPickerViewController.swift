@@ -276,42 +276,79 @@ class countryPickerViewController: UIViewController {
         
         // Set up current Parse user
         let user = PFUser.currentUser()
-        
-        // Set up date picker to FB values
-        let initialDateString: String = user!["DOB"] as! String
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-        let initialDate = dateFormatter.dateFromString(initialDateString)!
-        
-        // Keep date selection within range of data
-        let datePickerMaxDate = dateFormatter.dateFromString("31/12/2013")!
-        let datePickerMinDate = dateFormatter.dateFromString("30/12/1960")!
-        datePicker.maximumDate = datePickerMaxDate
-        datePicker.minimumDate = datePickerMinDate
-        datePicker.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-        datePicker.setDate(initialDate, animated: true)
-        
-        // Save date picker value to Parse when date changed
-        datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
-        
-        // Set up gender selction to FB value
-        if String(user!["gender"]) == "Male" {
+        user?.fetchInBackgroundWithBlock({ (user, error) -> Void in
             
-            gender.selectedSegmentIndex = 0
+            if user?["country"] == nil {
+                
+                user?["country"] = "Aruba"
+                user!["countryRow"] = 0
+                user?.saveInBackground()
+                
+            }
             
-        } else {
+            if user?["DOB"] == nil {
+                
+                user?["DOB"] = "01/01/1990"
+                user!["YOB"] = 1990
+                user!["MOB"] = 01
+                user!["DayOB"] = 1990
+                
+                user?.saveInBackground()
+                
+            }
             
-            gender.selectedSegmentIndex = 1
+            if user?["gender"] == nil {
+                
+                user?["gender"] = "Male"
+                user?.saveInBackground()
+                
+            }
+            
+            // added this
+            // Set up date formatter
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+            
+            // Set up date picker to saved values
+            if let initialDateString: String = user!["DOB"] as? String {
+                
+                let initialDate = dateFormatter.dateFromString(initialDateString)!
+                self.datePicker.setDate(initialDate, animated: false)
+                
+            }
+            
+            // Keep date selection within range of data
+            let datePickerMaxDate = dateFormatter.dateFromString("31/12/2013")!
+            let datePickerMinDate = dateFormatter.dateFromString("30/12/1960")!
+            self.datePicker.maximumDate = datePickerMaxDate
+            self.datePicker.minimumDate = datePickerMinDate
+            
+            
+            // Save date picker value to Parse when date changed
+            self.datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
+            
+            // Set up gender selction to FB value
+            if String(user!["gender"]) == "Male" {
+                
+                self.gender.selectedSegmentIndex = 0
+                
+            } else {
+                
+                self.gender.selectedSegmentIndex = 1
+                
+            }
+            
+            // Set up country selection to current value
+            if let countryRow = user!["countryRow"] {
+                
+                self.countryPickerView.selectRow(Int(countryRow as! NSNumber), inComponent: 0, animated: false)
+                
+            }
+            
+        })
         
-        }
         
-        // Set up country selection to current value
-        if let countryRow = user!["countryRow"] {
-            
-            countryPickerView.selectRow(Int(countryRow as! NSNumber), inComponent: 0, animated: true)
-            
-        }
         
     }
     

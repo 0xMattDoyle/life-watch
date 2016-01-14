@@ -47,10 +47,6 @@ class ViewController: UIViewController {
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
         
-        // Get image from user defaults
-        let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
-        self.profilePictureView.image = image
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
         
         // Watch for changes in user profile
@@ -61,6 +57,14 @@ class ViewController: UIViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             
             //User is logged in, so do things with all of the data.
+            // Get image from user defaults
+            
+            if let _ = FBSDKProfile.currentProfile() {
+                
+                loadFbImage()
+                
+            }
+
             updateDashText()
             
         } else {
@@ -72,12 +76,64 @@ class ViewController: UIViewController {
     
     func defaultsChanged(notification:NSNotification){
         
-        updateDashText()
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            
+            //User is logged in, so do things with all of the data.
+            if let _ = FBSDKProfile.currentProfile() {
+                
+                //loadFbImage()
+                
+            }
+            updateDashText()
+            
+        } else {
+            // User is not logged in
+        }
         
     }
     
-    // Function runs when users profile changes - Currently disabled
+    func loadFbImage() {
+        
+        let user = PFUser.currentUser()
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        
+        let fbPic = FBSDKProfile.imageURLForPictureMode(FBSDKProfile.currentProfile())
+        let fbPicUrl = fbPic(FBSDKProfilePictureMode.Square, size: CGSizeMake(200, 200))
+        
+        let request: NSURLRequest = NSURLRequest(URL: fbPicUrl)
+        
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request){
+            (data, response, error) -> Void in
+            
+            if (error == nil && data != nil)
+            {
+                func saveFbImageToParseAndDefaults()
+                {
+                    let file = PFFile(name: "profilePicture.png", data: data!)
+                    user?["profilePicture"] = file
+                    user?.saveInBackground()
+                    
+                    defaults!.setObject(data, forKey: "profilePicture")
+                    defaults?.synchronize()
+                    
+                    let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
+                    self.profilePictureView.image = image
+                    
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), saveFbImageToParseAndDefaults)
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+    
+    // Function runs when users profile changes
     func onProfileUpdated(notification: NSNotification) {
+        
         
 
     }
@@ -87,18 +143,22 @@ class ViewController: UIViewController {
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
         
-        let firstName = defaults?.stringForKey("firstName")
-        let lastName = defaults?.stringForKey("lastName")
-        let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime")
-        let lifeExp = totalDaysInLifetime! / 365
-        let usersDaysRemaining = defaults?.stringForKey("usersDaysRemaining")
-        nameHeader.text = firstName! + " " + lastName!
-        lifeExpNumber.text = String(lifeExp)
-        daysLeftNumber.text = usersDaysRemaining
-        
-        let textString = String(firstName!) + ", you're expected to make it to " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " roughly days left to do everything that you will ever do. Make them count!"
-        
-        dashMessage.text = textString
+        if defaults?.stringForKey("usersDaysRemaining") != nil && defaults?.stringForKey("totalDaysInLifetime") != nil {
+            
+            let firstName = defaults?.stringForKey("firstName")
+            let lastName = defaults?.stringForKey("lastName")
+            let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime")
+            let lifeExp = totalDaysInLifetime! / 365
+            let usersDaysRemaining = defaults?.stringForKey("usersDaysRemaining")
+            self.nameHeader.text = firstName! + " " + lastName!
+            self.lifeExpNumber.text = String(lifeExp)
+            self.daysLeftNumber.text = usersDaysRemaining
+            
+            let textString = String(firstName!) + ", you're expected to make it to " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " roughly days left to do everything that you will ever do. Make them count!"
+            
+            self.dashMessage.text = textString
+            
+        }
         
     }
     

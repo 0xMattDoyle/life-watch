@@ -25,12 +25,14 @@ class LoginViewController: UIViewController {
                 if user.isNew {
                     print("User signed up and logged in through Facebook!")
                     populateDataFromFB()
-                    self.loadFbImage()
+                    //self.loadFbImage()
                     self.performSegueWithIdentifier("confirmDataSegue", sender: self)
+                    
                 } else {
                     print("User logged in through Facebook!")
-                    self.loadFbImage()
                     self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
+                    populateDataFromFB()
+                    //self.loadFbImage()
                 }
             } else {
                 print("Uh oh. The user cancelled the Facebook login.")
@@ -42,44 +44,19 @@ class LoginViewController: UIViewController {
         
     }
     
-    func loadFbImage() {
-        
-        let user = PFUser.currentUser()
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-        
-        let fbPic = FBSDKProfile.imageURLForPictureMode(FBSDKProfile.currentProfile())
-        let fbPicUrl = fbPic(FBSDKProfilePictureMode.Square, size: CGSizeMake(200, 200))
-        
-        let request: NSURLRequest = NSURLRequest(URL: fbPicUrl)
-        
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request){
-            (data, response, error) -> Void in
-            
-            if (error == nil && data != nil)
-            {
-                func saveFbImageToParseAndDefaults()
-                {
-                    let file = PFFile(name: "profilePicture.png", data: data!)
-                    user?["profilePicture"] = file
-                    user?.saveInBackground()
-                    
-                    defaults!.setObject(data, forKey: "profilePicture")
-                    defaults?.synchronize()
-                    
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), saveFbImageToParseAndDefaults)
-            }
-            
-        }
-        
-        task.resume()
-        
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Check if user logged in
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            
+            //User is logged in, so do things with all of the data.
+            
+        } else {
+            // User is not logged in
+            
+        }
+
 
         // Do any additional setup after loading the view.
     }
