@@ -43,20 +43,6 @@
                                     <constraint firstAttribute="height" constant="64" id="4ZS-gi-LAm"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-GL-WSD" customClass="FBSDKProfilePictureView">
-                                <rect key="frame" x="226" y="85" width="150" height="150"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="DVp-GL-WSD" secondAttribute="height" multiplier="1:1" id="Ra2-Fs-oXk"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNs-kt-GBJ">
-                                <rect key="frame" x="30" y="255" width="540" height="47"/>
-                                <string key="text">Matt, you're expected to live to be 83.4. This means you have 18,174 days left to do everything that you will ever do. Go make them count!</string>
-                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6f-nH-ws5">
                                 <rect key="frame" x="121" y="29" width="359" height="25"/>
                                 <constraints>
@@ -83,7 +69,7 @@
                                     <action selector="logOutDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="n7n-kG-SPd"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="line2" translatesAutoresizingMaskIntoConstraints="NO" id="FHn-c9-uB1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line2" translatesAutoresizingMaskIntoConstraints="NO" id="FHn-c9-uB1">
                                 <rect key="frame" x="296" y="320" width="2" height="280"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="199" id="8cf-kq-AT4"/>
@@ -95,16 +81,16 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wYU-fC-bVS">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYU-fC-bVS">
                                 <rect key="frame" x="296" y="320" width="304" height="280"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="18,174" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="3Wn-sq-K6a">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18,174" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="3Wn-sq-K6a">
                                         <rect key="frame" x="10" y="71" width="284" height="69"/>
                                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="50"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DAYS LEFT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="xKy-Pb-AFL">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DAYS LEFT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="xKy-Pb-AFL">
                                         <rect key="frame" x="10" y="148" width="284" height="28"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -132,16 +118,16 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kSI-Sv-l34">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kSI-Sv-l34">
                                 <rect key="frame" x="0.0" y="320" width="298" height="280"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="83.4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="6en-5c-DA7">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="83.4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="6en-5c-DA7">
                                         <rect key="frame" x="10" y="71" width="278" height="69"/>
                                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="50"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LIFE EXPECTANCY" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="4R1-jL-P5c">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIFE EXPECTANCY" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="4R1-jL-P5c">
                                         <rect key="frame" x="10" y="148" width="279" height="28"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -176,6 +162,19 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzA-pw-3Wf">
+                                <rect key="frame" x="220" y="72" width="160" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="bzA-pw-3Wf" secondAttribute="height" multiplier="1:1" id="45T-Jr-iI1"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNs-kt-GBJ">
+                                <rect key="frame" x="30" y="255" width="540" height="47"/>
+                                <string key="text">Matt, you're expected to live to be 83.4. This means you have 18,174 days left to do everything that you will ever do. Go make them count!</string>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -186,11 +185,11 @@
                             <constraint firstItem="ZT5-1h-yP9" firstAttribute="bottom" secondItem="cNs-kt-GBJ" secondAttribute="bottom" constant="20" id="4Dc-uQ-oag"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wYU-fC-bVS" secondAttribute="trailing" constant="-20" id="60y-9K-h6D"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="wYU-fC-bVS" secondAttribute="bottom" id="8eY-dG-hr2"/>
+                            <constraint firstItem="bzA-pw-3Wf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="97t-75-ZH8"/>
                             <constraint firstItem="dyV-26-Y2h" firstAttribute="centerY" secondItem="r6f-nH-ws5" secondAttribute="centerY" id="9BV-28-cjJ"/>
                             <constraint firstItem="2p9-a8-O60" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="9X0-qW-ddb"/>
                             <constraint firstItem="2p9-a8-O60" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" constant="734" id="BzL-Q1-kSb"/>
                             <constraint firstItem="kSI-Sv-l34" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="C5z-b0-bNZ"/>
-                            <constraint firstItem="DVp-GL-WSD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="65" id="D4B-PG-2dt"/>
                             <constraint firstItem="cNs-kt-GBJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="DU0-F2-yWZ"/>
                             <constraint firstItem="r6f-nH-ws5" firstAttribute="leading" secondItem="dyV-26-Y2h" secondAttribute="trailing" constant="38" id="DuO-57-GQD"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="cNs-kt-GBJ" secondAttribute="bottom" constant="309" id="ENE-ag-Aq4"/>
@@ -199,22 +198,21 @@
                             <constraint firstItem="yvZ-9C-B7g" firstAttribute="baseline" secondItem="r6f-nH-ws5" secondAttribute="baseline" id="ND6-0i-TCQ"/>
                             <constraint firstItem="aMP-aB-Dub" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="NiD-WV-pGb"/>
                             <constraint firstItem="r6f-nH-ws5" firstAttribute="centerX" secondItem="aMP-aB-Dub" secondAttribute="centerX" id="O4h-jS-ndg"/>
-                            <constraint firstItem="DVp-GL-WSD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OBb-QZ-DPU"/>
                             <constraint firstItem="kSI-Sv-l34" firstAttribute="trailing" secondItem="FHn-c9-uB1" secondAttribute="trailing" id="OtO-rY-WfM"/>
                             <constraint firstItem="2p9-a8-O60" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="PVo-XW-8bP"/>
                             <constraint firstItem="cNs-kt-GBJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-21.5" id="Sjc-Lg-KKe"/>
                             <constraint firstItem="2p9-a8-O60" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="XDg-75-Ojn"/>
                             <constraint firstItem="yvZ-9C-B7g" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="4" id="XSB-H3-TSI"/>
                             <constraint firstItem="ZT5-1h-yP9" firstAttribute="top" secondItem="cNs-kt-GBJ" secondAttribute="bottom" constant="31" id="ZdA-zg-xrx"/>
-                            <constraint firstItem="cNs-kt-GBJ" firstAttribute="top" secondItem="DVp-GL-WSD" secondAttribute="bottom" constant="20" id="aJ2-sj-kon"/>
                             <constraint firstAttribute="bottomMargin" secondItem="2p9-a8-O60" secondAttribute="bottom" id="apa-Op-EXx"/>
                             <constraint firstItem="aMP-aB-Dub" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="ax6-wW-h4c"/>
-                            <constraint firstItem="r6f-nH-ws5" firstAttribute="centerX" secondItem="DVp-GL-WSD" secondAttribute="centerX" id="cZs-Ey-GKW"/>
+                            <constraint firstItem="cNs-kt-GBJ" firstAttribute="top" secondItem="bzA-pw-3Wf" secondAttribute="bottom" constant="15" id="cqw-vC-4qV"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZT5-1h-yP9" secondAttribute="trailing" constant="-21" id="csi-rH-LKR"/>
                             <constraint firstItem="4R1-jL-P5c" firstAttribute="centerY" secondItem="xKy-Pb-AFL" secondAttribute="centerY" id="dHj-bm-LE7"/>
                             <constraint firstItem="wYU-fC-bVS" firstAttribute="top" secondItem="ZT5-1h-yP9" secondAttribute="top" id="dN6-bE-9FE"/>
                             <constraint firstItem="FHn-c9-uB1" firstAttribute="centerX" secondItem="cNs-kt-GBJ" secondAttribute="centerX" constant="-3" id="daq-f9-XmH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2p9-a8-O60" secondAttribute="trailing" constant="-170" id="dd3-bv-s2V"/>
+                            <constraint firstItem="bzA-pw-3Wf" firstAttribute="top" secondItem="aMP-aB-Dub" secondAttribute="bottom" constant="8" id="dpd-Zp-m9b"/>
                             <constraint firstItem="yvZ-9C-B7g" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="eWI-xS-xNK"/>
                             <constraint firstItem="yvZ-9C-B7g" firstAttribute="centerY" secondItem="r6f-nH-ws5" secondAttribute="centerY" id="fCm-Dm-i6n"/>
                             <constraint firstItem="r6f-nH-ws5" firstAttribute="baseline" secondItem="yvZ-9C-B7g" secondAttribute="firstBaseline" id="fZA-RN-DoV"/>
@@ -227,8 +225,8 @@
                             <constraint firstItem="FHn-c9-uB1" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="lJg-aW-FQw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="kSI-Sv-l34" secondAttribute="bottom" id="ni8-nT-Kvo"/>
                             <constraint firstItem="yvZ-9C-B7g" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oFh-qf-vda"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cNs-kt-GBJ" secondAttribute="trailing" constant="10" id="qbj-QL-JVM"/>
                             <constraint firstItem="r6f-nH-ws5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="9" id="vvA-bw-G3S"/>
-                            <constraint firstItem="cNs-kt-GBJ" firstAttribute="centerX" secondItem="DVp-GL-WSD" secondAttribute="centerX" id="w7c-y1-Q7n"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aMP-aB-Dub" secondAttribute="trailing" constant="-20" id="yAs-Vj-KfW"/>
                         </constraints>
                         <variation key="default">
@@ -260,7 +258,7 @@
                         <outlet property="daysLeftNumber" destination="3Wn-sq-K6a" id="3qn-ZA-oSh"/>
                         <outlet property="lifeExpNumber" destination="6en-5c-DA7" id="p97-jR-o1g"/>
                         <outlet property="nameHeader" destination="r6f-nH-ws5" id="xac-QL-21N"/>
-                        <outlet property="profilePicture" destination="DVp-GL-WSD" id="Atw-v9-07a"/>
+                        <outlet property="profilePictureView" destination="bzA-pw-3Wf" id="v6G-RT-cIJ"/>
                         <segue destination="6pb-Qk-nZr" kind="show" identifier="notLoggedIn" id="FJw-b4-B3e"/>
                         <segue destination="0M5-m5-uHw" kind="show" identifier="editSegue" id="s09-p1-oNn"/>
                     </connections>
@@ -386,11 +384,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="cxA-Bk-62c"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="0M5-m5-uHw" id="VQb-xH-XlR"/>
                                     <outlet property="delegate" destination="0M5-m5-uHw" id="I7r-ZD-W79"/>
@@ -584,8 +577,8 @@
         <image name="right" width="23" height="42"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xG2-k5-60j"/>
-        <segue reference="evV-4T-ETh"/>
+        <segue reference="FJw-b4-B3e"/>
         <segue reference="Lyh-Ao-XI2"/>
+        <segue reference="s09-p1-oNn"/>
     </inferredMetricsTieBreakers>
 </document>

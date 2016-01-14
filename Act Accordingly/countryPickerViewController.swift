@@ -351,9 +351,18 @@ class countryPickerViewController: UIViewController {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
         
         let strDate = dateFormatter.stringFromDate(datePicker.date)
         user!["DOB"]  = strDate
+        
+        // Convert NSDate to dateComponents
+        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+        let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: datePicker.date)
+        user!["YOB"] = dobComponents.year
+        user!["MOB"] = dobComponents.month
+        user!["DayOB"] = dobComponents.day
+        
         user?.saveInBackground()
     }
 

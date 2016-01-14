@@ -12,40 +12,45 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import ParseFacebookUtilsV4
 
-// Saves all Parse data to local defaults so that the today widget can access it.
-func saveParseDataLocally() -> Bool {
+// Get user's data from their Facebook profile.
+func populateDataFromFB() {
     
-    print("Entering saveParseDataLocally()")
-    var finished = false
+    print("Entering populateDataFromFB()")
     
-    // Setup UserDefaults
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-
+    // Save FB info to Parse
     do {
         
         try PFUser.currentUser()?.fetch()
-        
         let user = PFUser.currentUser()
         
-        defaults?.setObject(user!["firstName"], forKey: "firstName")
-        defaults?.setObject(user!["lastName"], forKey: "lastName")
-        defaults?.setObject(user!["gender"], forKey: "gender")
-        defaults?.setObject(user!["country"], forKey: "country")
-        defaults?.setObject(user!["totalDaysInLifetime"], forKey: "totalDaysInLifetime")
-        defaults?.setObject(user!["DOB"], forKey: "DOB")
-        defaults?.setObject(user!["YOB"], forKey: "YOB")
-        defaults?.setObject(user!["MOB"], forKey: "MOB")
-        defaults?.setObject(user!["DayOB"], forKey: "DayOB")
+        user!["firstName"] = FBSDKProfile.currentProfile().firstName
+        user!["lastName"] = FBSDKProfile.currentProfile().lastName
+        user!.saveInBackground()
         
-        defaults?.synchronize()
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            
+            user!["gender"] = result.valueForKey("gender")?.capitalizedString
+            
+            // Convert date string to NSDate
+            let DOB = String(result.valueForKey("birthday")!)
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+            let date = dateFormatter.dateFromString(DOB)
+            
+            // Convert NSDate to dateComponents
+            let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+            let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: date!)
+            user!["DOB"] = DOB
+            user!["YOB"] = dobComponents.year
+            user!["MOB"] = dobComponents.month
+            user!["DayOB"] = dobComponents.day
+            
+            user!.saveInBackground()
+            
+        })
         
-        calulateUsersDaysRemaining()
-        
-        finished = true
-        
-        } catch {}
-    
-    return finished
+    } catch {}
     
 }
 
@@ -110,50 +115,45 @@ func getUsersLifeExp() -> Bool {
         }
         
     } catch {}
- 
+    
     finished = true
     return finished
 }
 
-// Get user's data from their Facebook profile.
-func populateDataFromFB() {
+// Saves all Parse data to local defaults so that the today widget can access it.
+func saveParseDataLocally() -> Bool {
     
-    print("Entering populateDataFromFB()")
+    print("Entering saveParseDataLocally()")
+    var finished = false
     
-    // Save FB info to Parse
+    // Setup UserDefaults
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+
     do {
         
         try PFUser.currentUser()?.fetch()
+        
         let user = PFUser.currentUser()
         
-        user!["firstName"] = FBSDKProfile.currentProfile().firstName
-        user!["lastName"] = FBSDKProfile.currentProfile().lastName
-        user!.saveInBackground()
+        defaults?.setObject(user!["firstName"], forKey: "firstName")
+        defaults?.setObject(user!["lastName"], forKey: "lastName")
+        defaults?.setObject(user!["gender"], forKey: "gender")
+        defaults?.setObject(user!["country"], forKey: "country")
+        defaults?.setObject(user!["totalDaysInLifetime"], forKey: "totalDaysInLifetime")
+        defaults?.setObject(user!["DOB"], forKey: "DOB")
+        defaults?.setObject(user!["YOB"], forKey: "YOB")
+        defaults?.setObject(user!["MOB"], forKey: "MOB")
+        defaults?.setObject(user!["DayOB"], forKey: "DayOB")
         
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
-            
-            user!["gender"] = result.valueForKey("gender")?.capitalizedString
-            
-            // Convert date string to NSDate
-            let DOB = String(result.valueForKey("birthday")!)
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-            let date = dateFormatter.dateFromString(DOB)
-            
-            // Convert NSDate to dateComponents
-            let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
-            let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: date!)
-            user!["DOB"] = DOB
-            user!["YOB"] = dobComponents.year
-            user!["MOB"] = dobComponents.month
-            user!["DayOB"] = dobComponents.day
-            
-            user!.saveInBackground()
-            
-        })
+        defaults?.synchronize()
         
-    } catch {}
+        calulateUsersDaysRemaining()
+        
+        finished = true
+        
+        } catch {}
+    
+    return finished
     
 }
 

@@ -20,11 +20,11 @@ class ViewController: UIViewController {
     }
     
     // IBOutlets
-    @IBOutlet weak var profilePicture: FBSDKProfilePictureView!
     @IBOutlet weak var dashMessage: UILabel!
     @IBOutlet weak var nameHeader: UILabel!
     @IBOutlet weak var lifeExpNumber: UILabel!
     @IBOutlet weak var daysLeftNumber: UILabel!
+    @IBOutlet weak var profilePictureView: UIImageView!
     
     // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
@@ -39,9 +39,18 @@ class ViewController: UIViewController {
         performSegueWithIdentifier("editSegue", sender: self)
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Load user defaults
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        
+        // Get image from user defaults
+        let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
+        self.profilePictureView.image = image
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
         
         // Watch for changes in user profile
@@ -70,10 +79,7 @@ class ViewController: UIViewController {
     // Function runs when users profile changes - Currently disabled
     func onProfileUpdated(notification: NSNotification) {
         
-        profilePicture.setNeedsImageUpdate()
-        //populateDataFromFB()
-        //getUsersLifeExp()
-        
+
     }
     
     func updateDashText () {
