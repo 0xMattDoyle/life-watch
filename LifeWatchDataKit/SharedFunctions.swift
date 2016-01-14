@@ -104,6 +104,8 @@ func getUsersLifeExp() -> Bool {
                     } else {
                         
                         print(error)
+                        // Run data error popup
+                        
                         
                     }
                     
@@ -111,7 +113,7 @@ func getUsersLifeExp() -> Bool {
                 
             } else {
                 
-                print("Sorry, we have no data matching that information.")
+                // Run data error popup
                 print(error)
                 
             }
