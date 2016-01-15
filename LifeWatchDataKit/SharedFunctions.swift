@@ -15,160 +15,132 @@ import ParseFacebookUtilsV4
 // Get user's data from their Facebook profile.
 func populateDataFromFB() {
     
-    print("Entering populateDataFromFB()")
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
     
     // Save FB info to Parse
-    do {
+    
+    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
         
-        try PFUser.currentUser()?.fetch()
-        let user = PFUser.currentUser()
+        if error == nil {
+            
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, first_name, last_name"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                if error == nil {
+                    
+                    user!["gender"] = result.valueForKey("gender")?.capitalizedString
+                    defaults?.setObject(result.valueForKey("gender")?.capitalizedString, forKey: "gender")
+                    defaults?.synchronize()
+                    user!["firstName"] = result.valueForKey("first_name")?.capitalizedString
+                    user!["lastName"] = result.valueForKey("last_name")?.capitalizedString
+                    user!.saveInBackground()
+                    
+                }
+                
+            })
+            
+        }
         
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, first_name, last_name"]).startWithCompletionHandler({ (connection, result, error) -> Void in
-            
-            user!["gender"] = result.valueForKey("gender")?.capitalizedString
-            user!["firstName"] = result.valueForKey("first_name")?.capitalizedString
-            user!["lastName"] = result.valueForKey("last_name")?.capitalizedString
-            
-            /*
-            
-            // Convert date string to NSDate
-            let DOB = String(result.valueForKey("birthday")!)
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
-            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-            dateFormatter.dateFormat = "DD/MM/YYYY"
-            let date = dateFormatter.dateFromString(DOB)
-            
-            // Convert NSDate to dateComponents
-            let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
-            let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: date!)
-            user!["DOB"] = DOB
-            user!["YOB"] = dobComponents.year
-            user!["MOB"] = dobComponents.month
-            user!["DayOB"] = dobComponents.day
-            */
-
-            user!.saveInBackground()
-            
-        })
-        
-    } catch {}
+    })
     
 }
 
 // Run a query against the Parse database to calculate a user's life expectancy (days) based on users DOB, Country and gender.
-func getUsersLifeExp() -> Bool {
+func getUsersLifeExp() {
     
-    var finished = false
-    
-    print("Entering getUsersLifeExp()")
-    
-    do {
+    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
         
-        try PFUser.currentUser()?.fetch()
-        let user = PFUser.currentUser()
-        
-        // Query to get relevant lifeExp objectId from Parse
-        let idQuery = PFQuery(className: "lifeExp")
-        idQuery.whereKey("Country", equalTo: user!["country"])
-        idQuery.whereKey("Gender", equalTo: user!["gender"])
-        idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+        if error == nil {
             
-            if error == nil {
+            // Query to get relevant lifeExp objectId from Parse
+            let idQuery = PFQuery(className: "lifeExp")
+            idQuery.whereKey("Country", equalTo: user!["country"])
+            idQuery.whereKey("Gender", equalTo: user!["gender"])
+            idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
                 
-                // Set objectId equal to the object found matrhing country and gender.
-                let objectId = object!.objectId!
-                
-                // Query to get lifeExp using objectId
-                let lifeExpQuery = PFQuery(className:"lifeExp")
-                
-                lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
+                if error == nil {
                     
-                    if error == nil {
+                    // Set objectId equal to the object found matrhing country and gender.
+                    let objectId = object!.objectId!
+                    
+                    // Query to get lifeExp using objectId
+                    let lifeExpQuery = PFQuery(className:"lifeExp")
+                    
+                    lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
                         
-                        if let lifeExp = object!["y" + String(user!["YOB"])] as! Double? {
+                        if error == nil {
                             
-                            // Calculate user's estimated lifetime
-                            let totalDaysInLifetime = lifeExp * 365
+                            if let lifeExp = object!["y" + String(user!["YOB"])] as! Double? {
+                                
+                                // Calculate user's estimated lifetime
+                                let totalDaysInLifetime = lifeExp * 365
+                                
+                                // Save calulation to Parse
+                                print("totalDaysInLifetime: " + String(totalDaysInLifetime))
+                                user!["totalDaysInLifetime"] = totalDaysInLifetime
+                                
+                                user?.saveInBackground()
+                                saveParseDataLocally()
+                                
+                            }
                             
-                            // Save calulation to Parse
-                            print("totalDaysInLifetime: " + String(totalDaysInLifetime))
-                            user!["totalDaysInLifetime"] = totalDaysInLifetime
+                        } else {
                             
-                            user?.saveInBackground()
-                            saveParseDataLocally()
+                            print(error)
+                            // Run data error popup
+                            
                             
                         }
                         
-                    } else {
-                        
-                        print(error)
-                        // Run data error popup
-                        
-                        
                     }
                     
+                } else {
+                    
+                    // Run data error popup
+                    print(error)
+                    
                 }
-                
-            } else {
-                
-                // Run data error popup
-                print(error)
                 
             }
             
         }
         
-    } catch {}
+    })
     
-    finished = true
-    return finished
 }
 
 // Saves all Parse data to local defaults so that the today widget can access it.
-func saveParseDataLocally() -> Bool {
-    
-    print("Entering saveParseDataLocally()")
-    var finished = false
+func saveParseDataLocally() {
     
     // Setup UserDefaults
     let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
 
-    do {
+    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
         
-        try PFUser.currentUser()?.fetch()
+        if error == nil {
+            
+            defaults?.setObject(user!["firstName"], forKey: "firstName")
+            defaults?.setObject(user!["lastName"], forKey: "lastName")
+            defaults?.setObject(user!["gender"], forKey: "gender")
+            defaults?.setObject(user!["country"], forKey: "country")
+            defaults?.setObject(user!["totalDaysInLifetime"], forKey: "totalDaysInLifetime")
+            defaults?.setObject(user!["DOB"], forKey: "DOB")
+            defaults?.setObject(user!["YOB"], forKey: "YOB")
+            defaults?.setObject(user!["MOB"], forKey: "MOB")
+            defaults?.setObject(user!["DayOB"], forKey: "DayOB")
+            defaults?.setObject(user!["countryRow"], forKey: "countryRow")
+            
+            defaults?.synchronize()
+            
+            calulateUsersDaysRemaining()
+            
+        }
         
-        let user = PFUser.currentUser()
-        
-        defaults?.setObject(user!["firstName"], forKey: "firstName")
-        defaults?.setObject(user!["lastName"], forKey: "lastName")
-        defaults?.setObject(user!["gender"], forKey: "gender")
-        defaults?.setObject(user!["country"], forKey: "country")
-        defaults?.setObject(user!["totalDaysInLifetime"], forKey: "totalDaysInLifetime")
-        defaults?.setObject(user!["DOB"], forKey: "DOB")
-        defaults?.setObject(user!["YOB"], forKey: "YOB")
-        defaults?.setObject(user!["MOB"], forKey: "MOB")
-        defaults?.setObject(user!["DayOB"], forKey: "DayOB")
-        
-        defaults?.synchronize()
-        
-        calulateUsersDaysRemaining()
-        
-        finished = true
-        
-        } catch {}
-    
-    return finished
+    })
     
 }
 
 // Calculates how many days a user has remaining, based on their current age and their life expectancy.
-func calulateUsersDaysRemaining() -> Bool {
-
-    var readyToSegue = false
-    
-    print("Entering calulateUsersDaysRemaining()")
+func calulateUsersDaysRemaining() {
     
     let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
     defaults?.synchronize()
@@ -182,7 +154,7 @@ func calulateUsersDaysRemaining() -> Bool {
         // Convert date string to NSDate
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+        dateFormatter.locale = NSLocale(localeIdentifier: "en")
         let date = dateFormatter.dateFromString(dobString)
         
         // Calculate age based on DOB
@@ -203,7 +175,6 @@ func calulateUsersDaysRemaining() -> Bool {
         defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
         defaults?.synchronize()
         print("usersDaysRemainingCommaSeparated: " + usersDaysRemainingCommaSeparated)
-        readyToSegue = true
         
     } else {
         
@@ -211,7 +182,5 @@ func calulateUsersDaysRemaining() -> Bool {
         defaults?.setObject("N/A", forKey: "usersDaysRemaining")
         
     }
-    
-    return readyToSegue
     
 }

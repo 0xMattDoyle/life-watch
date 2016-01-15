@@ -15,9 +15,12 @@ import ParseFacebookUtilsV4
 class LoginViewController: UIViewController {
     
     // Define the permissions the app requires from Facebook.
-    let permissions = ["public_profile", "user_birthday"]
+    let permissions = ["public_profile"]
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
+        
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
         
         PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions) {
             (user: PFUser?, error: NSError?) -> Void in
@@ -25,14 +28,19 @@ class LoginViewController: UIViewController {
                 if user.isNew {
                     print("User signed up and logged in through Facebook!")
                     populateDataFromFB()
-                    //self.loadFbImage()
-                    self.performSegueWithIdentifier("confirmDataSegue", sender: self)
+                    defaults?.setBool(true, forKey: "isNew")
+                    defaults?.synchronize()
+                    
+                    self.performSegueWithIdentifier("unwindToDash", sender: self)
                     
                 } else {
                     print("User logged in through Facebook!")
-                    self.performSegueWithIdentifier("finishedLoggingInSegue", sender: self)
+                    self.performSegueWithIdentifier("unwindToDash", sender: self)
                     populateDataFromFB()
-                    //self.loadFbImage()
+                    getUsersLifeExp()
+                    
+                    defaults?.setBool(false, forKey: "isNew")
+                    defaults?.synchronize()
                 }
             } else {
                 print("Uh oh. The user cancelled the Facebook login.")
@@ -51,6 +59,7 @@ class LoginViewController: UIViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             
             //User is logged in, so do things with all of the data.
+            
             
         } else {
             // User is not logged in

@@ -21,17 +21,25 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
 
+        calulateUsersDaysRemaining()
+        showResult()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         
         calulateUsersDaysRemaining()
+        showResult()
+
+    }
+    func showResult() {
         
         // Show result
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
         //let firstName = defaults?.stringForKey("firstName")
-        hoursRemainingLabel.text = "You have roughly " + (defaults?.stringForKey("usersDaysRemaining"))! + " days left, make them count!"
+        hoursRemainingLabel.text = (defaults?.stringForKey("usersDaysRemaining"))! + " days left, make them count!"
+        
     }
     
     override func didReceiveMemoryWarning() {

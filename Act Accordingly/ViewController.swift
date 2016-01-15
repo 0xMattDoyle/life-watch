@@ -43,6 +43,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(NSLocale.preferredLanguages()[0])
+        
         // Load user defaults
         let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
         defaults?.synchronize()
@@ -53,25 +55,6 @@ class ViewController: UIViewController {
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "onProfileUpdated:", name: FBSDKProfileDidChangeNotification, object: nil)
         
-        // Check if user logged in
-        if (FBSDKAccessToken.currentAccessToken() != nil) {
-            
-            //User is logged in, so do things with all of the data.
-            // Get image from user defaults
-            
-            if let _ = FBSDKProfile.currentProfile() {
-                
-                loadFbImage()
-                
-            }
-
-            updateDashText()
-            
-        } else {
-            // User is not logged in
-            self.performSegueWithIdentifier("notLoggedIn", sender: self)
-        }
-        
     }
     
     func defaultsChanged(notification:NSNotification){
@@ -79,11 +62,6 @@ class ViewController: UIViewController {
         if (FBSDKAccessToken.currentAccessToken() != nil) {
             
             //User is logged in, so do things with all of the data.
-            if let _ = FBSDKProfile.currentProfile() {
-                
-                //loadFbImage()
-                
-            }
             updateDashText()
             
         } else {
@@ -154,7 +132,7 @@ class ViewController: UIViewController {
             self.lifeExpNumber.text = String(lifeExp)
             self.daysLeftNumber.text = usersDaysRemaining
             
-            let textString = String(firstName!) + ", you're expected to make it to " + String(lifeExp) + ". You have " + String(usersDaysRemaining!) + " roughly days left to do everything that you will ever do. Make them count!"
+            let textString = String(firstName!) + ", you're expected to live to " + String(lifeExp) + ", that's " + String(usersDaysRemaining!) + " days to do everything you'll ever do. Make them count!"
             
             self.dashMessage.text = textString
             
@@ -164,7 +142,35 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        
+        // Check if user logged in
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            
+            //User is logged in, so do things with all of the data.
+            if defaults?.boolForKey("isNew") == true {
+                
+                performSegueWithIdentifier("editSegue", sender: self)
+                
+            }
+            
+            // Get image from user defaults
+            if let _ = FBSDKProfile.currentProfile() {
+                
+                loadFbImage()
+                
+            }
+            
+            updateDashText()
+            
+        } else {
+            // User is not logged in
+            self.performSegueWithIdentifier("notLoggedIn", sender: self)
+        }
+        
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

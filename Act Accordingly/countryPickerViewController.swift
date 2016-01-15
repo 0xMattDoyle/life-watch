@@ -20,13 +20,6 @@ class countryPickerViewController: UIViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
     
     // IBActions
-    @IBAction func logOutDidPress(sender: AnyObject) {
-        
-        PFUser.logOut()
-        self.performSegueWithIdentifier("logout", sender: self)
-        
-    }
-    
     @IBAction func genderDidSelect(sender: AnyObject) {
         
         switch gender.selectedSegmentIndex
@@ -47,8 +40,11 @@ class countryPickerViewController: UIViewController {
     
     @IBAction func doneDidPress(sender: AnyObject) {
         
-        performSegueWithIdentifier("doneSegue", sender: self)
-
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        
+        defaults?.setBool(false, forKey: "isNew")
+        
         getUsersLifeExp()
         
     }
@@ -274,6 +270,19 @@ class countryPickerViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         
+        
+        
+        
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        defaults?.synchronize()
+        
         // Set up current Parse user
         let user = PFUser.currentUser()
         user?.fetchInBackgroundWithBlock({ (user, error) -> Void in
@@ -303,33 +312,13 @@ class countryPickerViewController: UIViewController {
                 user?.saveInBackground()
                 
             }
+    
+        })
+        
+        // Set up gender selction to FB value
+        if let gender = defaults?.stringForKey("gender") {
             
-            // added this
-            // Set up date formatter
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-            
-            // Set up date picker to saved values
-            if let initialDateString: String = user!["DOB"] as? String {
-                
-                let initialDate = dateFormatter.dateFromString(initialDateString)!
-                self.datePicker.setDate(initialDate, animated: false)
-                
-            }
-            
-            // Keep date selection within range of data
-            let datePickerMaxDate = dateFormatter.dateFromString("31/12/2013")!
-            let datePickerMinDate = dateFormatter.dateFromString("30/12/1960")!
-            self.datePicker.maximumDate = datePickerMaxDate
-            self.datePicker.minimumDate = datePickerMinDate
-            
-            
-            // Save date picker value to Parse when date changed
-            self.datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
-            
-            // Set up gender selction to FB value
-            if String(user!["gender"]) == "Male" {
+            if gender == "Male" {
                 
                 self.gender.selectedSegmentIndex = 0
                 
@@ -339,25 +328,41 @@ class countryPickerViewController: UIViewController {
                 
             }
             
-            // Set up country selection to current value
-            if let countryRow = user!["countryRow"] {
-                
-                self.countryPickerView.selectRow(Int(countryRow as! NSNumber), inComponent: 0, animated: false)
+        }
+        
+        // Set up date formatter
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        //dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+        dateFormatter.locale = NSLocale(localeIdentifier: "en")
+        
+        // Set up date picker to saved values
+        if let initialDateString: String = defaults?.stringForKey("DOB") {
+            
+            if let initialDate = dateFormatter.dateFromString(initialDateString) {
+             
+                self.datePicker.setDate(initialDate, animated: false)
                 
             }
             
-        })
+        }
+        
+        // Keep date selection within range of data
+        let datePickerMaxDate = dateFormatter.dateFromString("12/31/2013")!
+        let datePickerMinDate = dateFormatter.dateFromString("12/30/1960")!
+        self.datePicker.maximumDate = datePickerMaxDate
+        self.datePicker.minimumDate = datePickerMinDate
         
         
+        // Save date picker value to Parse when date changed
+        self.datePicker.addTarget(self, action: Selector("datePickerChanged:"), forControlEvents: UIControlEvents.ValueChanged)
         
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
-
+        // Set up country selection to current value
+        if let countryRow = defaults?.valueForKey("countryRow") {
+            
+            self.countryPickerView.selectRow(Int(countryRow as! NSNumber), inComponent: 0, animated: false)
+            
+        }
         
     }
     

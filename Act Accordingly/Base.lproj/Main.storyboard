@@ -24,8 +24,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg2" translatesAutoresizingMaskIntoConstraints="NO" id="2p9-a8-O60">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="ZT5-1h-yP9">
-                                <rect key="frame" x="-149" y="320" width="750" height="2"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="ZT5-1h-yP9">
+                                <rect key="frame" x="-149" y="347" width="750" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="4KY-nY-F6U"/>
                                     <constraint firstAttribute="width" constant="301" id="lWV-xg-IUd"/>
@@ -43,7 +43,7 @@
                                     <constraint firstAttribute="height" constant="64" id="4ZS-gi-LAm"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Last" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6f-nH-ws5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6f-nH-ws5">
                                 <rect key="frame" x="121" y="29" width="359" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="359" id="Glb-Lw-FDS"/>
@@ -52,7 +52,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvZ-9C-B7g" customClass="DesignableButton" customModule="Spring">
+                            <button opaque="NO" contentMode="center" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvZ-9C-B7g" customClass="DesignableButton" customModule="Spring">
                                 <rect key="frame" x="529" y="23" width="51" height="37"/>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                 <inset key="imageEdgeInsets" minX="100" minY="10" maxX="10" maxY="10"/>
@@ -61,7 +61,7 @@
                                     <action selector="editDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ert-1X-tg6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyV-26-Y2h">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyV-26-Y2h">
                                 <rect key="frame" x="20" y="23" width="63" height="37"/>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                 <state key="normal" title="Log out"/>
@@ -69,8 +69,8 @@
                                     <action selector="logOutDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="n7n-kG-SPd"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="line2" translatesAutoresizingMaskIntoConstraints="NO" id="FHn-c9-uB1">
-                                <rect key="frame" x="296" y="320" width="2" height="280"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line2" translatesAutoresizingMaskIntoConstraints="NO" id="FHn-c9-uB1">
+                                <rect key="frame" x="296" y="347" width="2" height="253"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="199" id="8cf-kq-AT4"/>
                                     <constraint firstAttribute="width" constant="2" id="tjG-ZF-XBk"/>
@@ -81,17 +81,25 @@
                                     </mask>
                                 </variation>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wYU-fC-bVS">
-                                <rect key="frame" x="296" y="320" width="304" height="280"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYU-fC-bVS">
+                                <rect key="frame" x="296" y="347" width="304" height="253"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="3Wn-sq-K6a">
-                                        <rect key="frame" x="10" y="71" width="284" height="69"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="3Wn-sq-K6a" customClass="DesignableLabel" customModule="Spring">
+                                        <rect key="frame" x="10" y="58" width="284" height="69"/>
                                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="50"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeIn"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                                <real key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="DAYS LEFT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="xKy-Pb-AFL">
-                                        <rect key="frame" x="10" y="148" width="284" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DAYS LEFT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="xKy-Pb-AFL">
+                                        <rect key="frame" x="10" y="135" width="284" height="28"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -118,17 +126,25 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kSI-Sv-l34">
-                                <rect key="frame" x="0.0" y="320" width="298" height="280"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kSI-Sv-l34">
+                                <rect key="frame" x="0.0" y="347" width="298" height="253"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="6en-5c-DA7">
-                                        <rect key="frame" x="10" y="71" width="278" height="69"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="6en-5c-DA7" customClass="DesignableLabel" customModule="Spring">
+                                        <rect key="frame" x="10" y="58" width="278" height="69"/>
                                         <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="50"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeIn"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                                <real key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="LIFE EXPECTANCY" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="4R1-jL-P5c">
-                                        <rect key="frame" x="10" y="148" width="279" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIFE EXPECTANCY" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="4R1-jL-P5c">
+                                        <rect key="frame" x="10" y="135" width="279" height="28"/>
                                         <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -162,17 +178,36 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzA-pw-3Wf">
-                                <rect key="frame" x="220" y="72" width="160" height="160"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bzA-pw-3Wf" customClass="DesignableImageView" customModule="Spring">
+                                <rect key="frame" x="229" y="72" width="142" height="142"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bzA-pw-3Wf" secondAttribute="height" multiplier="1:1" id="45T-Jr-iI1"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeIn"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Loading..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNs-kt-GBJ">
-                                <rect key="frame" x="30" y="255" width="540" height="47"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNs-kt-GBJ" customClass="DesignableLabel" customModule="Spring">
+                                <rect key="frame" x="30" y="229" width="540" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="YF5-9w-zAJ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeIn"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -258,8 +293,8 @@
                         <outlet property="lifeExpNumber" destination="6en-5c-DA7" id="p97-jR-o1g"/>
                         <outlet property="nameHeader" destination="r6f-nH-ws5" id="xac-QL-21N"/>
                         <outlet property="profilePictureView" destination="bzA-pw-3Wf" id="v6G-RT-cIJ"/>
-                        <segue destination="6pb-Qk-nZr" kind="show" identifier="notLoggedIn" id="FJw-b4-B3e"/>
-                        <segue destination="0M5-m5-uHw" kind="show" identifier="editSegue" id="s09-p1-oNn"/>
+                        <segue destination="6pb-Qk-nZr" kind="presentation" identifier="notLoggedIn" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="FJw-b4-B3e"/>
+                        <segue destination="0M5-m5-uHw" kind="presentation" identifier="editSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="s09-p1-oNn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -303,14 +338,22 @@
                                     <constraint firstAttribute="width" constant="17" id="PNz-6W-6XK"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LifeWatch, a gentle reminder to make each day count." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="qXc-q0-Mfm">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LifeWatch, a gentle reminder to make each day count." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="qXc-q0-Mfm" customClass="DesignableLabel" customModule="Spring">
                                 <rect key="frame" x="20" y="285" width="561" height="31"/>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animation" value="fadeIn"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="duration">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="22" translatesAutoresizingMaskIntoConstraints="NO" id="b52-Oc-jFv">
-                                <rect key="frame" x="49" y="70" width="503" height="69"/>
+                                <rect key="frame" x="49" y="131" width="503" height="69"/>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="50"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -341,7 +384,7 @@
                             <constraint firstItem="b52-Oc-jFv" firstAttribute="centerX" secondItem="rX7-Ew-xix" secondAttribute="centerX" id="var-MU-gQ9"/>
                             <constraint firstItem="Lgh-wv-ajw" firstAttribute="leading" secondItem="rX7-Ew-xix" secondAttribute="leadingMargin" constant="-20" id="vg1-ca-oDH"/>
                             <constraint firstItem="fqG-i2-kQH" firstAttribute="top" secondItem="FZw-pz-xs5" secondAttribute="bottom" constant="5" id="xOM-JN-myK"/>
-                            <constraint firstItem="b52-Oc-jFv" firstAttribute="top" secondItem="NT5-TW-Gzg" secondAttribute="bottom" constant="50" id="yio-6c-lTh"/>
+                            <constraint firstItem="b52-Oc-jFv" firstAttribute="top" secondItem="NT5-TW-Gzg" secondAttribute="bottom" constant="111" id="yio-6c-lTh"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -355,13 +398,14 @@
                         </variation>
                     </view>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="finishedLoggingInSegue" id="IVI-dW-BYi"/>
                         <segue destination="0M5-m5-uHw" kind="show" identifier="confirmDataSegue" id="xiP-JK-oUh"/>
+                        <segue destination="wRJ-0o-Hp9" kind="unwind" identifier="unwindToDash" unwindAction="unwindToViewController:" id="xg1-3l-x9X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zXo-GS-8r5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="wRJ-0o-Hp9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2353" y="-360"/>
+            <point key="canvasLocation" x="2421" y="-430"/>
         </scene>
         <!--Country Picker View Controller-->
         <scene sceneID="PI3-lh-27p">
@@ -417,16 +461,6 @@
                                     <constraint firstAttribute="height" constant="64" id="poE-t8-icr"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JaL-Qc-nMY" customClass="DesignableButton" customModule="Spring">
-                                <rect key="frame" x="535" y="23" width="45" height="37"/>
-                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <inset key="imageEdgeInsets" minX="100" minY="10" maxX="10" maxY="10"/>
-                                <state key="normal" title="Done"/>
-                                <connections>
-                                    <action selector="doneDidPress:" destination="0M5-m5-uHw" eventType="touchUpInside" id="P1R-9c-yXG"/>
-                                    <action selector="editDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xSD-RB-a3o"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhS-gp-4iv">
                                 <rect key="frame" x="274" y="29" width="53" height="25"/>
                                 <constraints>
@@ -441,15 +475,6 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Chg-oX-VNk">
-                                <rect key="frame" x="20" y="23" width="63" height="37"/>
-                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <state key="normal" title="Log out"/>
-                                <connections>
-                                    <action selector="logOutDidPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BK8-8H-JL8"/>
-                                    <action selector="logOutDidPress:" destination="0M5-m5-uHw" eventType="touchUpInside" id="xgf-YF-mXu"/>
-                                </connections>
-                            </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xRl-xf-Wax">
                                 <rect key="frame" x="240" y="328" width="121" height="29"/>
                                 <constraints>
@@ -481,16 +506,24 @@
                                     <constraint firstAttribute="height" constant="2" id="aMJ-02-ZSD"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JaL-Qc-nMY" customClass="DesignableButton" customModule="Spring">
+                                <rect key="frame" x="535" y="23" width="45" height="37"/>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
+                                <inset key="imageEdgeInsets" minX="100" minY="10" maxX="10" maxY="10"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneDidPress:" destination="0M5-m5-uHw" eventType="touchUpInside" id="kbv-Xa-Eqk"/>
+                                    <segue destination="rCM-Ja-pGO" kind="unwind" unwindAction="unwindToViewController:" id="7ii-DY-KDN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lhS-gp-4iv" firstAttribute="leading" secondItem="Chg-oX-VNk" secondAttribute="trailing" constant="38" id="2ib-pG-xqS"/>
                             <constraint firstItem="xRl-xf-Wax" firstAttribute="top" secondItem="eb3-dh-dEV" secondAttribute="bottom" constant="8" id="9XB-Rj-yyB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="qHw-Ob-xFY" secondAttribute="trailing" constant="-20" id="AmE-um-pSO"/>
                             <constraint firstItem="JaL-Qc-nMY" firstAttribute="top" secondItem="RfY-gI-Ohh" secondAttribute="bottom" constant="3" id="BnP-LZ-KM8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eE5-EN-4hi" secondAttribute="trailing" constant="-20" id="Cb4-Bf-Wmu"/>
                             <constraint firstAttribute="bottomMargin" secondItem="qHw-Ob-xFY" secondAttribute="bottom" constant="-8" id="DHA-Ta-yZK"/>
-                            <constraint firstItem="Chg-oX-VNk" firstAttribute="top" secondItem="RfY-gI-Ohh" secondAttribute="bottom" constant="3" id="E6C-n0-dxs"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JWM-uL-fy2" secondAttribute="trailing" constant="-20" id="Ec1-ee-oVh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GGt-yM-rs1" secondAttribute="trailing" constant="-20" id="F91-ee-fCa"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DHG-Ph-88f" secondAttribute="trailing" constant="-20" id="GcJ-Kn-1TC"/>
@@ -515,7 +548,6 @@
                             <constraint firstItem="qHw-Ob-xFY" firstAttribute="leading" secondItem="NXn-wh-TcE" secondAttribute="leadingMargin" constant="-20" id="gI3-rV-yyc"/>
                             <constraint firstItem="1U4-FH-wEc" firstAttribute="top" secondItem="JWM-uL-fy2" secondAttribute="bottom" id="kSP-EC-7Zp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="BLN-V0-s8e" secondAttribute="trailing" constant="-20" id="lGE-nc-r9r"/>
-                            <constraint firstItem="Chg-oX-VNk" firstAttribute="leading" secondItem="NXn-wh-TcE" secondAttribute="leadingMargin" id="sqC-P5-GiP"/>
                             <constraint firstItem="eE5-EN-4hi" firstAttribute="top" secondItem="xRl-xf-Wax" secondAttribute="bottom" constant="20" id="t6A-ao-85U"/>
                             <constraint firstItem="lhS-gp-4iv" firstAttribute="top" secondItem="RfY-gI-Ohh" secondAttribute="bottom" constant="9" id="uqa-UY-EOq"/>
                             <constraint firstItem="eb3-dh-dEV" firstAttribute="top" secondItem="GGt-yM-rs1" secondAttribute="bottom" constant="40" id="vt5-Kv-vCo"/>
@@ -525,7 +557,6 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="c26-WX-I4T"/>
-                                <exclude reference="2ib-pG-xqS"/>
                                 <exclude reference="O04-hp-3Mn"/>
                                 <exclude reference="kSP-EC-7Zp"/>
                             </mask>
@@ -535,13 +566,12 @@
                         <outlet property="countryPickerView" destination="GGt-yM-rs1" id="CRy-oB-QDa"/>
                         <outlet property="datePicker" destination="JWM-uL-fy2" id="AuM-8y-X8u"/>
                         <outlet property="gender" destination="xRl-xf-Wax" id="fR3-OV-fS0"/>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="doneSegue" id="Lyh-Ao-XI2"/>
-                        <segue destination="6pb-Qk-nZr" kind="show" identifier="logout" id="xG2-k5-60j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZDz-OB-LcP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="rCM-Ja-pGO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2963" y="422"/>
+            <point key="canvasLocation" x="2421" y="502"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RIe-4D-XIb">
@@ -576,8 +606,6 @@
         <image name="right" width="23" height="42"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FJw-b4-B3e"/>
-        <segue reference="IVI-dW-BYi"/>
         <segue reference="s09-p1-oNn"/>
     </inferredMetricsTieBreakers>
 </document>
