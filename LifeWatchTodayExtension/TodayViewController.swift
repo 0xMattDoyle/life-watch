@@ -35,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func showResult() {
         
         // Show result
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         //let firstName = defaults?.stringForKey("firstName")
         hoursRemainingLabel.text = (defaults?.stringForKey("usersDaysRemaining"))! + " days left, make them count!"

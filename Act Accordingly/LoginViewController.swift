@@ -19,14 +19,14 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions) {
             (user: PFUser?, error: NSError?) -> Void in
             if let user = user {
                 if user.isNew {
-                    print("User signed up and logged in through Facebook!")
+                    //print("User signed up and logged in through Facebook!")
                     populateDataFromFB()
                     defaults?.setBool(true, forKey: "isNew")
                     defaults?.synchronize()
@@ -34,7 +34,7 @@ class LoginViewController: UIViewController {
                     self.performSegueWithIdentifier("unwindToDash", sender: self)
                     
                 } else {
-                    print("User logged in through Facebook!")
+                    //print("User logged in through Facebook!")
                     self.performSegueWithIdentifier("unwindToDash", sender: self)
                     populateDataFromFB()
                     getUsersLifeExp()
@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
                     defaults?.synchronize()
                 }
             } else {
-                print("Uh oh. The user cancelled the Facebook login.")
+                //print("Uh oh. The user cancelled the Facebook login.")
             }
             
         }

@@ -10,9 +10,6 @@ import UIKit
 import Parse
 
 class countryPickerViewController: UIViewController {
-
-    // Global variables
-    let user = PFUser.currentUser()
     
     // IBOutlets
     @IBOutlet weak var countryPickerView: UIPickerView!
@@ -22,30 +19,45 @@ class countryPickerViewController: UIViewController {
     // IBActions
     @IBAction func genderDidSelect(sender: AnyObject) {
         
-        switch gender.selectedSegmentIndex
+        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
+           
+            if error == nil {
+                
+                switch self.gender.selectedSegmentIndex
+                    
+                {
+                    
+                case 0: user!["gender"] = "Male";
+                    
+                case 1: user!["gender"] = "Female";
+                    
+                default: break;
+                    
+                }
+                
+                user!.saveInBackground()
+                
+            }
             
-        {
-            
-        case 0: user!["gender"] = "Male";
-
-        case 1: user!["gender"] = "Female";
-            
-        default: break;
-            
-        }
-        
-        user?.saveInBackground()
+        })
         
     }
     
     @IBAction func doneDidPress(sender: AnyObject) {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         defaults?.setBool(false, forKey: "isNew")
         
-        getUsersLifeExp()
+        if Reachability.isConnectedToNetwork() == true {
+            
+            getUsersLifeExp()
+            
+        } else {
+            let alert = UIAlertView(title: "Hmm, we can't find a network connection", message: "Changes could not be saved.", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+        }
         
     }
     
@@ -268,51 +280,47 @@ class countryPickerViewController: UIViewController {
         "Zambia",
         "Zimbabwe"]
     
-    override func viewWillAppear(animated: Bool) {
-        
-        
-        
-        
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         // Set up current Parse user
-        let user = PFUser.currentUser()
-        user?.fetchInBackgroundWithBlock({ (user, error) -> Void in
             
-            if user?["country"] == nil {
+        PFUser.currentUser()!.fetchInBackgroundWithBlock({ (user, error) -> Void in
+            
+            if error == nil {
                 
-                user?["country"] = "Aruba"
-                user!["countryRow"] = 0
-                user?.saveInBackground()
+                if user?["country"] == nil {
+                    
+                    user?["country"] = "Aruba"
+                    user!["countryRow"] = 0
+                    user?.saveInBackground()
+                    
+                }
+                
+                if user?["DOB"] == nil {
+                    
+                    user?["DOB"] = "01/01/1990"
+                    user!["YOB"] = 1990
+                    user!["MOB"] = 01
+                    user!["DayOB"] = 1990
+                    
+                    user?.saveInBackground()
+                    
+                }
+                
+                if user?["gender"] == nil {
+                    
+                    user?["gender"] = "Male"
+                    user?.saveInBackground()
+                    
+                }
                 
             }
             
-            if user?["DOB"] == nil {
-                
-                user?["DOB"] = "01/01/1990"
-                user!["YOB"] = 1990
-                user!["MOB"] = 01
-                user!["DayOB"] = 1990
-                
-                user?.saveInBackground()
-                
-            }
-            
-            if user?["gender"] == nil {
-                
-                user?["gender"] = "Male"
-                user?.saveInBackground()
-                
-            }
-    
         })
         
         // Set up gender selction to FB value
@@ -330,10 +338,10 @@ class countryPickerViewController: UIViewController {
             
         }
         
+        
         // Set up date formatter
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        //dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
         dateFormatter.locale = NSLocale(localeIdentifier: "en")
         
         // Set up date picker to saved values
@@ -380,32 +388,44 @@ class countryPickerViewController: UIViewController {
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(pickerValues[row])
         
-        let user = PFUser.currentUser()
-        user!["country"] = pickerValues[row]
-        user!["countryRow"] = row
-        user?.saveInBackground()
+        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
+            
+            if error == nil {
+                
+                user!["country"] = self.pickerValues[row]
+                user!["countryRow"] = row
+                user!.saveInBackground()
+                
+            }
+            
+        })
+
     }
     
     // Runs when the date picker is changed
     func datePickerChanged(datePicker:UIDatePicker) {
         
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
-        
-        let strDate = dateFormatter.stringFromDate(datePicker.date)
-        user!["DOB"]  = strDate
-        
-        // Convert NSDate to dateComponents
-        let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
-        let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: datePicker.date)
-        user!["YOB"] = dobComponents.year
-        user!["MOB"] = dobComponents.month
-        user!["DayOB"] = dobComponents.day
-        
-        user?.saveInBackground()
+        if let user = PFUser.currentUser() {
+            
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            dateFormatter.locale = NSLocale(localeIdentifier: NSLocale.preferredLanguages()[0])
+            
+            let strDate = dateFormatter.stringFromDate(datePicker.date)
+            user["DOB"]  = strDate
+            
+            // Convert NSDate to dateComponents
+            let unitFlags: NSCalendarUnit = [.Hour, .Day, .Month, .Year]
+            let dobComponents = NSCalendar.currentCalendar().components(unitFlags, fromDate: datePicker.date)
+            user["YOB"] = dobComponents.year
+            user["MOB"] = dobComponents.month
+            user["DayOB"] = dobComponents.day
+            
+            user.saveInBackground()
+            
+        }
+
     }
 
     override func didReceiveMemoryWarning() {

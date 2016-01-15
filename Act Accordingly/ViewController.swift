@@ -29,24 +29,45 @@ class ViewController: UIViewController {
     // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
         
-        PFUser.logOut()
+        if Reachability.isConnectedToNetwork() == true {
+            
+            PFUser.logOut()
+            
+        } else {
+            
+            PFUser.logOutInBackground()
+            
+        }
+    
         self.performSegueWithIdentifier("notLoggedIn", sender: self)
         
     }
     
     @IBAction func editDidPress(sender: AnyObject) {
         
-        performSegueWithIdentifier("editSegue", sender: self)
+        if Reachability.isConnectedToNetwork() == true {
+            
+            performSegueWithIdentifier("editSegue", sender: self)
+            
+        } else {
+            let alert = UIAlertView(title: "Hmm, we can't find a network connection", message: "Profile currently unavailable.", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+        }
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(NSLocale.preferredLanguages()[0])
+        if Reachability.isConnectedToNetwork() == true {
+            // Internet connection okay
+        } else {
+            let alert = UIAlertView(title: "Hmm, we can't find a network connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
+            alert.show()
+        }
         
         // Load user defaults
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
@@ -72,40 +93,50 @@ class ViewController: UIViewController {
     
     func loadFbImage() {
         
-        let user = PFUser.currentUser()
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
-        
-        let fbPic = FBSDKProfile.imageURLForPictureMode(FBSDKProfile.currentProfile())
-        let fbPicUrl = fbPic(FBSDKProfilePictureMode.Square, size: CGSizeMake(200, 200))
-        
-        let request: NSURLRequest = NSURLRequest(URL: fbPicUrl)
-        
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request){
-            (data, response, error) -> Void in
+        PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
             
-            if (error == nil && data != nil)
-            {
-                func saveFbImageToParseAndDefaults()
-                {
-                    let file = PFFile(name: "profilePicture.png", data: data!)
-                    user?["profilePicture"] = file
-                    user?.saveInBackground()
+            if error == nil {
+                
+                let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
+                
+                let fbPic = FBSDKProfile.imageURLForPictureMode(FBSDKProfile.currentProfile())
+                let fbPicUrl = fbPic(FBSDKProfilePictureMode.Square, size: CGSizeMake(200, 200))
+                
+                let request: NSURLRequest = NSURLRequest(URL: fbPicUrl)
+                
+                let session = NSURLSession.sharedSession()
+                let task = session.dataTaskWithRequest(request){
+                    (data, response, error) -> Void in
                     
-                    defaults!.setObject(data, forKey: "profilePicture")
-                    defaults?.synchronize()
-                    
-                    let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
-                    self.profilePictureView.image = image
+                    if (error == nil && data != nil)
+                    {
+                        func saveFbImageToParseAndDefaults()
+                        {
+                            
+                            let file = PFFile(name: "profilePicture.png", data: data!)
+                            user?["profilePicture"] = file
+                            user?.saveInBackground()
+                            
+                            defaults!.setObject(data, forKey: "profilePicture")
+                            defaults?.synchronize()
+                            
+                            let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
+                            self.profilePictureView.image = image
+                            
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue(), saveFbImageToParseAndDefaults)
+                    }
                     
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), saveFbImageToParseAndDefaults)
+                task.resume()
+                
             }
             
-        }
+        })
         
-        task.resume()
+
         
     }
     
@@ -118,7 +149,7 @@ class ViewController: UIViewController {
     
     func updateDashText () {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         if defaults?.stringForKey("usersDaysRemaining") != nil && defaults?.stringForKey("totalDaysInLifetime") != nil {
@@ -142,7 +173,7 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         // Check if user logged in

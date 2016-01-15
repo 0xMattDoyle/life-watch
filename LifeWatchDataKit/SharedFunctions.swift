@@ -15,7 +15,7 @@ import ParseFacebookUtilsV4
 // Get user's data from their Facebook profile.
 func populateDataFromFB() {
     
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
     
     // Save FB info to Parse
     
@@ -75,7 +75,6 @@ func getUsersLifeExp() {
                                 let totalDaysInLifetime = lifeExp * 365
                                 
                                 // Save calulation to Parse
-                                print("totalDaysInLifetime: " + String(totalDaysInLifetime))
                                 user!["totalDaysInLifetime"] = totalDaysInLifetime
                                 
                                 user?.saveInBackground()
@@ -112,7 +111,7 @@ func getUsersLifeExp() {
 func saveParseDataLocally() {
     
     // Setup UserDefaults
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
 
     PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
         
@@ -142,7 +141,7 @@ func saveParseDataLocally() {
 // Calculates how many days a user has remaining, based on their current age and their life expectancy.
 func calulateUsersDaysRemaining() {
     
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults")
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
     defaults?.synchronize()
     
     if
@@ -174,7 +173,6 @@ func calulateUsersDaysRemaining() {
         // Update user defaults
         defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
         defaults?.synchronize()
-        print("usersDaysRemainingCommaSeparated: " + usersDaysRemainingCommaSeparated)
         
     } else {
         
