@@ -141,8 +141,6 @@ class ViewController: UIViewController {
             
         })
         
-
-        
     }
     
     // Function runs when users profile changes
