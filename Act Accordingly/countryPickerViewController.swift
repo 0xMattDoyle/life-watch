@@ -54,6 +54,7 @@ class countryPickerViewController: UIViewController {
             
             getUsersLifeExp()
             
+            
         } else {
             let alert = UIAlertView(title: "Hmm, we can't find a network connection", message: "Changes could not be saved.", delegate: nil, cancelButtonTitle: "OK")
             alert.show()

@@ -154,24 +154,28 @@ func calulateUsersDaysRemaining() {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
         dateFormatter.locale = NSLocale(localeIdentifier: "en")
-        let date = dateFormatter.dateFromString(dobString)
         
-        // Calculate age based on DOB
-        let calendar : NSCalendar = NSCalendar.currentCalendar()
-        let now = NSDate()
-        let ageComponents = calendar.components(.Day, fromDate: date!, toDate: now, options: [])
-        let usersAgeInDays = ageComponents.day
-        
-        // Calculate users days remaining
-        let usersDaysRemaining = totalDaysInLifetime - usersAgeInDays
-        
-        // Set up comma-separated number to print
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = .DecimalStyle
-        let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
-        
-        // Update user defaults
-        defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
+        if let date = dateFormatter.dateFromString(dobString) {
+            
+            // Calculate age based on DOB
+            let calendar : NSCalendar = NSCalendar.currentCalendar()
+            let now = NSDate()
+            let ageComponents = calendar.components(.Day, fromDate: date, toDate: now, options: [])
+            let usersAgeInDays = ageComponents.day
+            
+            // Calculate users days remaining
+            let usersDaysRemaining = totalDaysInLifetime - usersAgeInDays
+            
+            // Set up comma-separated number to print
+            let formatter = NSNumberFormatter()
+            formatter.numberStyle = .DecimalStyle
+            let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
+            
+            // Update user defaults
+            defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
+            
+        }
+
         defaults?.synchronize()
         
     } else {

@@ -122,10 +122,14 @@ class ViewController: UIViewController {
                             defaults!.setObject(data, forKey: "profilePicture")
                             defaults?.synchronize()
                             
-                            if let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData) {
+                            if let image = defaults?.objectForKey("profilePicture") as? NSData {
                                 
-                                self.profilePictureView.image = image
-                                
+                                if let image = UIImage(data: image) {
+                                    
+                                    self.profilePictureView.image = image
+                                    
+                                }
+                            
                             }
                             
                         }
@@ -145,7 +149,6 @@ class ViewController: UIViewController {
     
     // Function runs when users profile changes
     func onProfileUpdated(notification: NSNotification) {
-        
         
 
     }
@@ -185,6 +188,7 @@ class ViewController: UIViewController {
             //User is logged in, so do things with all of the data.
             if defaults?.boolForKey("isNew") == true {
                 
+                defaults?.setObject(false, forKey: "isNew")
                 performSegueWithIdentifier("editSegue", sender: self)
                 
             }
@@ -194,14 +198,17 @@ class ViewController: UIViewController {
                 
                 calulateUsersDaysRemaining()
                 
-                
-                if let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData) {
+                if let image = defaults?.objectForKey("profilePicture") as? NSData {
                     
-                    profilePictureView.image = image
+                    if let image = UIImage(data: image) {
+                        
+                        profilePictureView.image = image
+                        
+                    }
                     
                 } else {
                     
-                    loadFbImage()
+                   loadFbImage()
                     
                 }
                 
