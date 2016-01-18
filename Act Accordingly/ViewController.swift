@@ -29,6 +29,8 @@ class ViewController: UIViewController {
     // IBActions
     @IBAction func logOutDidPress(sender: AnyObject) {
         
+        NSUserDefaults.standardUserDefaults().removePersistentDomainForName("group.llumicode.TodayExtensionSharingDefaults2")
+        
         if Reachability.isConnectedToNetwork() == true {
             
             PFUser.logOut()
@@ -120,8 +122,11 @@ class ViewController: UIViewController {
                             defaults!.setObject(data, forKey: "profilePicture")
                             defaults?.synchronize()
                             
-                            let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData)
-                            self.profilePictureView.image = image
+                            if let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData) {
+                                
+                                self.profilePictureView.image = image
+                                
+                            }
                             
                         }
                         
@@ -189,7 +194,18 @@ class ViewController: UIViewController {
             // Get image from user defaults
             if let _ = FBSDKProfile.currentProfile() {
                 
-                loadFbImage()
+                calulateUsersDaysRemaining()
+                
+                
+                if let image = UIImage(data:defaults?.objectForKey("profilePicture") as! NSData) {
+                    
+                    profilePictureView.image = image
+                    
+                } else {
+                    
+                    loadFbImage()
+                    
+                }
                 
             }
             
