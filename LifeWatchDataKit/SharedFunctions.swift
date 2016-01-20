@@ -10,7 +10,7 @@ import Foundation
 import Parse
 import FBSDKCoreKit
 import FBSDKLoginKit
-import ParseFacebookUtilsV4
+//import ParseFacebookUtilsV4
 
 // Get user's data from their Facebook profile.
 func populateDataFromFB() {
@@ -153,13 +153,14 @@ func calulateUsersDaysRemaining() {
         // Convert date string to NSDate
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: "en")
+        dateFormatter.locale = NSLocale(localeIdentifier: "en-AU")
         
-        if let date = dateFormatter.dateFromString(dobString) {
+        let calendar : NSCalendar = NSCalendar.currentCalendar()
+        let now = NSDate()
+        
+        func calulateUsersDaysRemainingMiddle(date: NSDate) {
             
             // Calculate age based on DOB
-            let calendar : NSCalendar = NSCalendar.currentCalendar()
-            let now = NSDate()
             let ageComponents = calendar.components(.Day, fromDate: date, toDate: now, options: [])
             let usersAgeInDays = ageComponents.day
             
@@ -173,6 +174,22 @@ func calulateUsersDaysRemaining() {
             
             // Update user defaults
             defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
+            
+        }
+        
+        if let date = dateFormatter.dateFromString(dobString) {
+            
+            calulateUsersDaysRemainingMiddle(date)
+            
+        } else {
+            
+            // Duplicate code to work on simulator
+            dateFormatter.locale = NSLocale(localeIdentifier: "en")
+            
+            if let date = dateFormatter.dateFromString(dobString) {
+                
+                calulateUsersDaysRemainingMiddle(date)
+            }
             
         }
 

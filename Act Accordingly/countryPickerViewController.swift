@@ -343,19 +343,32 @@ class countryPickerViewController: UIViewController {
         // Set up date formatter
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        dateFormatter.locale = NSLocale(localeIdentifier: "en")
         
         // Set up date picker to saved values
         if let initialDateString: String = defaults?.stringForKey("DOB") {
             
+            dateFormatter.locale = NSLocale(localeIdentifier: "en-AU")
+            
             if let initialDate = dateFormatter.dateFromString(initialDateString) {
-             
+                
                 self.datePicker.setDate(initialDate, animated: false)
+                
+            } else {
+                
+                // Code to ensure tests in simulator work
+                dateFormatter.locale = NSLocale(localeIdentifier: "en")
+                
+                if let initialDate = dateFormatter.dateFromString(initialDateString) {
+                    
+                    self.datePicker.setDate(initialDate, animated: false)
+                    
+                }
                 
             }
             
         }
         
+        dateFormatter.locale = NSLocale(localeIdentifier: "en")
         // Keep date selection within range of data
         let datePickerMaxDate = dateFormatter.dateFromString("12/31/2013")!
         let datePickerMinDate = dateFormatter.dateFromString("12/30/1960")!
