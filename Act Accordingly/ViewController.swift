@@ -9,11 +9,10 @@
 
 import UIKit
 import Parse
-//import FBSDKCoreKit
-//import FBSDKLoginKit
-//import ParseFacebookUtilsV4
 
 class ViewController: UIViewController {
+    
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
     
     deinit {
         NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: "usersDaysRemainingCommaSeparated", context: nil)
@@ -42,24 +41,28 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if Reachability.isConnectedToNetwork() == true {
-            // Internet connection okay
-        } else {
-            let alert = UIAlertView(title: "Hmm, we can't find a network connection", message: "Make sure your device is connected to the internet.", delegate: nil, cancelButtonTitle: "OK")
-            alert.show()
-        }
-        
-        // Load user defaults
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
+        
+        if defaults?.boolForKey("newUser") == true {
+        
+            defaults?.setBool(false, forKey: "newUser")
+            performSegueWithIdentifier("editSegue", sender: self)
+            
+        } else {
+            
+            if Reachability.isConnectedToNetwork() == true {
+                
+                getUsersLifeExp()
+                
+            }
+            
+        }
         
     }
     
     func defaultsChanged(notification:NSNotification){
-        
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
+
         defaults?.synchronize()
         
         if defaults?.boolForKey("newUser") == false {
@@ -69,13 +72,13 @@ class ViewController: UIViewController {
             
         } else {
             // User has no data
+            
         }
         
     }
     
     func updateDashText () {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
         defaults?.synchronize()
         
         if defaults?.stringForKey("usersDaysRemaining") != nil && defaults?.stringForKey("totalDaysInLifetime") != nil {
@@ -94,34 +97,10 @@ class ViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
-        defaults?.synchronize()
-            
-        //User is logged in, so do things with all of the data.
-        if defaults?.boolForKey("isNew") == true {
-                
-            defaults?.setObject(false, forKey: "isNew")
-            performSegueWithIdentifier("editSegue", sender: self)
-                
-        } else {
-            
-        updateDashText()
-            
-        } else {
-            // User is not logged in
-            self.performSegueWithIdentifier("newUser", sender: self)
-        }
-        
-    }
-
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

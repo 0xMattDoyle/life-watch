@@ -8,140 +8,61 @@
 
 import Foundation
 import Parse
-import FBSDKCoreKit
-import FBSDKLoginKit
+//import FBSDKCoreKit
+//import FBSDKLoginKit
 //import ParseFacebookUtilsV4
 
-// Get user's data from their Facebook profile.
-func populateDataFromFB() {
-    
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
-    
-    // Save FB info to Parse
-    
-    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
-        
-        if error == nil {
-            
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "gender, first_name, last_name"]).startWithCompletionHandler({ (connection, result, error) -> Void in
-                
-                if error == nil {
-                    
-                    user!["gender"] = result.valueForKey("gender")?.capitalizedString
-                    defaults?.setObject(result.valueForKey("gender")?.capitalizedString, forKey: "gender")
-                    defaults?.synchronize()
-                    user!["firstName"] = result.valueForKey("first_name")?.capitalizedString
-                    user!["lastName"] = result.valueForKey("last_name")?.capitalizedString
-                    user!.saveInBackground()
-                    
-                }
-                
-            })
-            
-        }
-        
-    })
-    
-}
+let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
 
 // Run a query against the Parse database to calculate a user's life expectancy (days) based on users DOB, Country and gender.
 func getUsersLifeExp() {
-    
-    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
-        
-        if error == nil {
             
-            // Query to get relevant lifeExp objectId from Parse
-            let idQuery = PFQuery(className: "lifeExp")
-            idQuery.whereKey("Country", equalTo: user!["country"])
-            idQuery.whereKey("Gender", equalTo: user!["gender"])
-            idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+    // Query to get relevant lifeExp objectId from Parse
+    let idQuery = PFQuery(className: "lifeExp")
+    idQuery.whereKey("Country", equalTo: (defaults?.stringForKey("country"))!)
+    idQuery.whereKey("Gender", equalTo: (defaults?.stringForKey("gender"))!)
+    idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+            
+        // Set objectId equal to the object found matching country and gender.
+        let objectId = object!.objectId!
+        
+        // Query to get lifeExp using objectId
+        let lifeExpQuery = PFQuery(className:"lifeExp")
+        
+        lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
+            
+            if error == nil {
                 
-                if error == nil {
+                if let lifeExp = object!["y" + (defaults?.stringForKey("country"))!] as! Double? {
                     
-                    // Set objectId equal to the object found matrhing country and gender.
-                    let objectId = object!.objectId!
+                    // Calculate user's estimated lifetime
+                    let totalDaysInLifetime = lifeExp * 365
                     
-                    // Query to get lifeExp using objectId
-                    let lifeExpQuery = PFQuery(className:"lifeExp")
+                    // Save calulation to defaults
+                    defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
+                    defaults?.synchronize()
                     
-                    lifeExpQuery.getObjectInBackgroundWithId(objectId) { (object, error) -> Void in
-                        
-                        if error == nil {
-                            
-                            if let lifeExp = object!["y" + String(user!["YOB"])] as! Double? {
-                                
-                                // Calculate user's estimated lifetime
-                                let totalDaysInLifetime = lifeExp * 365
-                                
-                                // Save calulation to Parse
-                                user!["totalDaysInLifetime"] = totalDaysInLifetime
-                                
-                                user?.saveInBackground()
-                                saveParseDataLocally()
-                                
-                            }
-                            
-                        } else {
-                            
-                            print(error)
-                            // Run data error popup
-                            
-                            
-                        }
-                        
-                    }
-                    
-                } else {
-                    
-                    // Run data error popup
-                    print(error)
+                    calulateUsersDaysRemaining()
                     
                 }
+                
+            } else {
+                
+                print(error)
+                // Run data error popup
+                
                 
             }
             
         }
         
-    })
-    
-}
-
-// Saves all Parse data to local defaults so that the today widget can access it.
-func saveParseDataLocally() {
-    
-    // Setup UserDefaults
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
-
-    PFUser.currentUser()?.fetchInBackgroundWithBlock({ (user, error) -> Void in
-        
-        if error == nil {
-            
-            defaults?.setObject(user!["firstName"], forKey: "firstName")
-            defaults?.setObject(user!["lastName"], forKey: "lastName")
-            defaults?.setObject(user!["gender"], forKey: "gender")
-            defaults?.setObject(user!["country"], forKey: "country")
-            defaults?.setObject(user!["totalDaysInLifetime"], forKey: "totalDaysInLifetime")
-            defaults?.setObject(user!["DOB"], forKey: "DOB")
-            defaults?.setObject(user!["YOB"], forKey: "YOB")
-            defaults?.setObject(user!["MOB"], forKey: "MOB")
-            defaults?.setObject(user!["DayOB"], forKey: "DayOB")
-            defaults?.setObject(user!["countryRow"], forKey: "countryRow")
-            
-            defaults?.synchronize()
-            
-            calulateUsersDaysRemaining()
-            
-        }
-        
-    })
+    }
     
 }
 
 // Calculates how many days a user has remaining, based on their current age and their life expectancy.
 func calulateUsersDaysRemaining() {
     
-    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
     defaults?.synchronize()
     
     if

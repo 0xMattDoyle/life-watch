@@ -8,64 +8,30 @@
 
 import UIKit
 import Parse
-import FBSDKCoreKit
-import FBSDKLoginKit
-import ParseFacebookUtilsV4
+//import FBSDKCoreKit
+//import FBSDKLoginKit
+//import ParseFacebookUtilsV4
 
 class LoginViewController: UIViewController {
     
-    // Define the permissions the app requires from Facebook.
-    let permissions = ["public_profile"]
+    let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
         
-        let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingDefaults2")
-        defaults?.synchronize()
-        
-        PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions) {
-            (user: PFUser?, error: NSError?) -> Void in
-            if let user = user {
-                if user.isNew {
-                    //print("User signed up and logged in through Facebook!")
-                    populateDataFromFB()
-                    defaults?.setBool(true, forKey: "isNew")
-                    defaults?.synchronize()
-                    
-                    self.performSegueWithIdentifier("unwindToDash", sender: self)
-                    
-                } else {
-                    //print("User logged in through Facebook!")
-                    self.performSegueWithIdentifier("unwindToDash", sender: self)
-                    populateDataFromFB()
-                    getUsersLifeExp()
-                    
-                    defaults?.setBool(false, forKey: "isNew")
-                    defaults?.synchronize()
-                }
-            } else {
-                //print("Uh oh. The user cancelled the Facebook login.")
-            }
-            
-        }
-        
-        
+        performSegueWithIdentifier("getStartedSegue", sender: self)
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Check if user logged in
-        if (FBSDKAccessToken.currentAccessToken() != nil) {
+        defaults?.synchronize()
+        
+        if defaults?.boolForKey("newUser") == false {
             
-            //User is logged in, so do things with all of the data.
-            
-            
-        } else {
-            // User is not logged in
+            performSegueWithIdentifier("getStartedSegue", sender: self)
             
         }
-
 
         // Do any additional setup after loading the view.
     }
