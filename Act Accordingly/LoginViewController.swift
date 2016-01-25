@@ -18,20 +18,14 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
         
-        performSegueWithIdentifier("getStartedSegue", sender: self)
+        defaults?.setObject("getStarted", forKey: "newUser")
+        defaults?.synchronize()
+        //performSegueWithIdentifier("getStartedSegue", sender: self)
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        defaults?.synchronize()
-        
-        if defaults?.boolForKey("newUser") == false {
-            
-            performSegueWithIdentifier("getStartedSegue", sender: self)
-            
-        }
 
         // Do any additional setup after loading the view.
     }

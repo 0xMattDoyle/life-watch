@@ -16,13 +16,13 @@ let defaults = NSUserDefaults(suiteName: "group.llumicode.TodayExtensionSharingD
 
 // Run a query against the Parse database to calculate a user's life expectancy (days) based on users DOB, Country and gender.
 func getUsersLifeExp() {
-            
+    
     // Query to get relevant lifeExp objectId from Parse
     let idQuery = PFQuery(className: "lifeExp")
     idQuery.whereKey("Country", equalTo: (defaults?.stringForKey("country"))!)
     idQuery.whereKey("Gender", equalTo: (defaults?.stringForKey("gender"))!)
     idQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-            
+        
         // Set objectId equal to the object found matching country and gender.
         let objectId = object!.objectId!
         
@@ -33,7 +33,7 @@ func getUsersLifeExp() {
             
             if error == nil {
                 
-                if let lifeExp = object!["y" + (defaults?.stringForKey("country"))!] as! Double? {
+                if let lifeExp = object!["y" + (defaults?.stringForKey("YOB"))!] as! Double? {
                     
                     // Calculate user's estimated lifetime
                     let totalDaysInLifetime = lifeExp * 365
@@ -41,6 +41,8 @@ func getUsersLifeExp() {
                     // Save calulation to defaults
                     defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
                     defaults?.synchronize()
+                    
+                    print(totalDaysInLifetime)
                     
                     calulateUsersDaysRemaining()
                     
@@ -92,6 +94,8 @@ func calulateUsersDaysRemaining() {
             let formatter = NSNumberFormatter()
             formatter.numberStyle = .DecimalStyle
             let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
+            
+            print(usersDaysRemainingCommaSeparated)
             
             // Update user defaults
             defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")

@@ -4,7 +4,6 @@
 //
 //  Created by Matt Doyle on 22/12/2015.
 //  Copyright © 2015 llumicode. All rights reserved.
-//  Matt, go to http://www.colorhunt.co/c/3986 for the pallet.
 //
 
 import UIKit
@@ -20,6 +19,7 @@ class ViewController: UIViewController {
     
     // IBOutlets
     @IBOutlet weak var dashMessage: UILabel!
+    @IBOutlet weak var ripMessage: UILabel!
     @IBOutlet weak var lifeExpNumber: UILabel!
     @IBOutlet weak var daysLeftNumber: UILabel!
     
@@ -41,15 +41,25 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        defaults?.synchronize()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "defaultsChanged:", name: NSUserDefaultsDidChangeNotification, object: nil)
         
-        if defaults?.boolForKey("newUser") == true {
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         
-            defaults?.setBool(false, forKey: "newUser")
+        defaults?.synchronize()
+        
+        print(defaults?.objectForKey("newUser"))
+        
+        if defaults?.objectForKey("newUser") == nil {
+            
+            performSegueWithIdentifier("getStartedSegue", sender: self)
+            
+        } else if (defaults?.objectForKey("newUser"))! as! String == "getStarted" {
+            
             performSegueWithIdentifier("editSegue", sender: self)
             
-        } else {
+        } else if (defaults?.objectForKey("newUser"))! as! String == "userSetUp" {
             
             if Reachability.isConnectedToNetwork() == true {
                 
@@ -62,18 +72,8 @@ class ViewController: UIViewController {
     }
     
     func defaultsChanged(notification:NSNotification){
-
-        defaults?.synchronize()
         
-        if defaults?.boolForKey("newUser") == false {
-            
-            //User is not new, so do things with their data.
-            updateDashText()
-            
-        } else {
-            // User has no data
-            
-        }
+        updateDashText()
         
     }
     
@@ -81,6 +81,7 @@ class ViewController: UIViewController {
         
         defaults?.synchronize()
         
+        // Dash message
         if defaults?.stringForKey("usersDaysRemaining") != nil && defaults?.stringForKey("totalDaysInLifetime") != nil {
             
             let totalDaysInLifetime = defaults?.integerForKey("totalDaysInLifetime")
@@ -89,9 +90,13 @@ class ViewController: UIViewController {
             self.lifeExpNumber.text = String(lifeExp)
             self.daysLeftNumber.text = usersDaysRemaining
             
-            let textString = "You're expected to live to " + String(lifeExp) + ", that's " + String(usersDaysRemaining!) + " days to do everything you'll ever do. Make them count!"
+            let textString = "You're expected to live to " + String(lifeExp) + ", that gives you " + String(usersDaysRemaining!) + " more days to do everything you'll ever do. Make them count!"
             
             self.dashMessage.text = textString
+            
+            // RIP message
+            let deathYear = (defaults?.integerForKey("YOB"))! + ((defaults?.integerForKey("totalDaysInLifetime"))! / 365)
+            ripMessage.text = (defaults?.stringForKey("YOB"))! + " - " + String(deathYear)
             
         }
         

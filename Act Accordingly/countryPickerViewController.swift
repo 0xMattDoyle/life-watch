@@ -39,12 +39,10 @@ class countryPickerViewController: UIViewController {
     
     @IBAction func doneDidPress(sender: AnyObject) {
         
-        defaults?.setBool(false, forKey: "isNew")
+        defaults?.setObject("userSetUp", forKey: "newUser")
         defaults?.synchronize()
         
         if Reachability.isConnectedToNetwork() == true {
-            
-            getUsersLifeExp()
         
         } else {
             
