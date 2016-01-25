@@ -49,8 +49,6 @@ class ViewController: UIViewController {
         
         defaults?.synchronize()
         
-        print(defaults?.objectForKey("newUser"))
-        
         if defaults?.objectForKey("newUser") == nil {
             
             performSegueWithIdentifier("getStartedSegue", sender: self)

@@ -42,8 +42,6 @@ func getUsersLifeExp() {
                     defaults?.setObject(totalDaysInLifetime, forKey: "totalDaysInLifetime")
                     defaults?.synchronize()
                     
-                    print(totalDaysInLifetime)
-                    
                     calulateUsersDaysRemaining()
                     
                 }
@@ -94,8 +92,6 @@ func calulateUsersDaysRemaining() {
             let formatter = NSNumberFormatter()
             formatter.numberStyle = .DecimalStyle
             let usersDaysRemainingCommaSeparated = formatter.stringFromNumber(usersDaysRemaining)!
-            
-            print(usersDaysRemainingCommaSeparated)
             
             // Update user defaults
             defaults?.setObject(usersDaysRemainingCommaSeparated, forKey: "usersDaysRemaining")
