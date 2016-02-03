@@ -8,9 +8,6 @@
 
 import UIKit
 import Parse
-//import FBSDKCoreKit
-//import FBSDKLoginKit
-//import ParseFacebookUtilsV4
 
 class LoginViewController: UIViewController {
     

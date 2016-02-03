@@ -9,7 +9,6 @@
 #ifndef LifeWatch_Bridging_Header_h
 #define LifeWatch_Bridging_Header_h
 
-#import <ParseFacebookUtilsV4/ParseFacebookUtilsV4.h>
 //#import <Parse/Parse.h>
 
 
